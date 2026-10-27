@@ -390,3 +390,7 @@ body:has(#ph-schalter:checked) .phtoggle__sw::after{transform:translateX(14px);b
 
 /* Smartphone: Foto als eigener Streifen */
 @media (max-width:899px){.hero{display:flex;flex-direction:column}.hero__bg{position:relative;inset:auto;z-index:0;aspect-ratio:4/3;width:100%;flex:none}.hero__bg img{object-position:66% 25%}.hero__bg::after{content:"";position:absolute;inset:auto 0 0 0;height:35%;background:linear-gradient(0deg,var(--ink),transparent)}.hero::before{display:none}.hero__text{padding-top:1.25rem}}
+
+/* Header: Bürobild mit Staubsauger als Hintergrund, Text liegt links darüber (v4.2) */
+@media (min-width:900px){.hero__bg img{width:66%;margin-left:auto;display:block;object-position:22% 30%;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 28%);mask-image:linear-gradient(90deg,transparent 0,#000 28%)}}
+@media (max-width:899px){.hero__bg img{width:100%;margin:0;-webkit-mask-image:none;mask-image:none;object-position:30% 30%}}
