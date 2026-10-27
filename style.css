@@ -108,6 +108,8 @@ body:has(#ph-schalter:checked) .phtoggle__sw::after{transform:translateX(14px);b
 .knopfreihe{display:flex;flex-wrap:wrap;gap:.75rem;margin:1.5rem 0 .5rem}
 .hinweis-klein{font-size:.85rem;color:inherit;opacity:.8;margin:.5rem 0 0}
 .hero__fakt{margin-top:1.25rem;font-size:.9rem;color:#c5d2dd}
+/* Smartphone: Foto als eigener Streifen oben, damit die ganze Person sichtbar ist */
+@media (max-width:899px){.hero{display:flex;flex-direction:column}.hero__bg{position:relative;inset:auto;z-index:0;aspect-ratio:4/3;width:100%;flex:none}.hero__bg img{object-position:78% 30%}.hero__bg::after{content:"";position:absolute;inset:auto 0 0 0;height:35%;background:linear-gradient(0deg,var(--ink),transparent)}.hero::before{display:none}.hero__text{padding-top:1.25rem}}
 
 /* Schnellwahl-Streifen (Anlehnung an die alte Seite) */
 .schnell{position:relative;margin-top:calc(-1 * clamp(5rem,9vw,7.5rem));z-index:2;padding-bottom:clamp(2rem,5vw,3.5rem)}
