@@ -93,7 +93,7 @@ body:has(#ph-schalter:checked) .phtoggle__sw::after{transform:translateX(14px);b
 /* Hero */
 .hero{position:relative;background:var(--ink);color:#fff;isolation:isolate;overflow:hidden}
 .hero__bg{position:absolute;inset:0;z-index:-2}
-.hero__bg img{width:100%;height:100%;object-fit:cover;object-position:92% 35%}
+.hero__bg img{width:100%;height:100%;object-fit:cover;object-position:70% 30%}
 .hero::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(30,41,51,.96) 0%,rgba(30,41,51,.88) 42%,rgba(30,41,51,.25) 100%),linear-gradient(0deg,rgba(30,41,51,.9),transparent 45%)}
 .hero__text{padding:clamp(2.5rem,6vw,5rem) 0 clamp(7rem,14vw,10rem);max-width:640px}
 .eyebrow{display:inline-block;font-size:.8rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--gruen-t);margin:0 0 .9rem}
@@ -387,3 +387,6 @@ body:has(#ph-schalter:checked) .phtoggle__sw::after{transform:translateX(14px);b
 .hero__zahl{font-size:clamp(2.4rem,7vw,3.2rem);font-weight:800;line-height:1;letter-spacing:-.03em;color:var(--ink);background:var(--gruen);padding:.3rem .65rem .35rem;border-radius:14px;box-shadow:0 8px 20px -8px rgba(162,216,30,.8)}
 .hero__fakt-text{display:block}
 .hero__fakt-text strong{display:block;font-size:1.15rem;color:#fff;margin-bottom:.1rem}
+
+/* Smartphone: Foto als eigener Streifen */
+@media (max-width:899px){.hero{display:flex;flex-direction:column}.hero__bg{position:relative;inset:auto;z-index:0;aspect-ratio:4/3;width:100%;flex:none}.hero__bg img{object-position:66% 25%}.hero__bg::after{content:"";position:absolute;inset:auto 0 0 0;height:35%;background:linear-gradient(0deg,var(--ink),transparent)}.hero::before{display:none}.hero__text{padding-top:1.25rem}}

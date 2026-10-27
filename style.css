@@ -93,7 +93,7 @@ body:has(#ph-schalter:checked) .phtoggle__sw::after{transform:translateX(14px);b
 /* Hero */
 .hero{position:relative;background:var(--ink);color:#fff;isolation:isolate;overflow:hidden}
 .hero__bg{position:absolute;inset:0;z-index:-2}
-.hero__bg img{width:100%;height:100%;object-fit:cover;object-position:92% 35%}
+.hero__bg img{width:100%;height:100%;object-fit:cover;object-position:70% 30%}
 .hero::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(30,41,51,.96) 0%,rgba(30,41,51,.88) 42%,rgba(30,41,51,.25) 100%),linear-gradient(0deg,rgba(30,41,51,.9),transparent 45%)}
 .hero__text{padding:clamp(2.5rem,6vw,5rem) 0 clamp(7rem,14vw,10rem);max-width:640px}
 .eyebrow{display:inline-block;font-size:.8rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--gruen-t);margin:0 0 .9rem}
@@ -109,7 +109,7 @@ body:has(#ph-schalter:checked) .phtoggle__sw::after{transform:translateX(14px);b
 .hinweis-klein{font-size:.85rem;color:inherit;opacity:.8;margin:.5rem 0 0}
 .hero__fakt{margin-top:1.25rem;font-size:.9rem;color:#c5d2dd}
 /* Smartphone: Foto als eigener Streifen oben, damit die ganze Person sichtbar ist */
-@media (max-width:899px){.hero{display:flex;flex-direction:column}.hero__bg{position:relative;inset:auto;z-index:0;aspect-ratio:4/3;width:100%;flex:none}.hero__bg img{object-position:78% 30%}.hero__bg::after{content:"";position:absolute;inset:auto 0 0 0;height:35%;background:linear-gradient(0deg,var(--ink),transparent)}.hero::before{display:none}.hero__text{padding-top:1.25rem}}
+@media (max-width:899px){.hero{display:flex;flex-direction:column}.hero__bg{position:relative;inset:auto;z-index:0;aspect-ratio:4/3;width:100%;flex:none}.hero__bg img{object-position:66% 25%}.hero__bg::after{content:"";position:absolute;inset:auto 0 0 0;height:35%;background:linear-gradient(0deg,var(--ink),transparent)}.hero::before{display:none}.hero__text{padding-top:1.25rem}}
 
 /* Schnellwahl-Streifen (Anlehnung an die alte Seite) */
 .schnell{position:relative;margin-top:calc(-1 * clamp(5rem,9vw,7.5rem));z-index:2;padding-bottom:clamp(2rem,5vw,3.5rem)}
