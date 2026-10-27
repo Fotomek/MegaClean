@@ -298,3 +298,50 @@ body:has(#ph-schalter:checked) .phtoggle__sw::after{transform:translateX(14px);b
 .beleg{display:inline-block;margin-left:.4rem;vertical-align:middle}
 @media (min-width:1020px){.schritte{grid-template-columns:repeat(4,1fr)}}
 @media (min-width:760px){.b-haupt .kachel__bildrahmen{max-height:400px;overflow:hidden}.b-haupt .kachel__bild{height:400px;object-fit:cover}.b-haupt .kachel__link{margin-top:1rem}}
+
+/* ---- v4.1: Icons, Über-uns ohne Foto, Angebots-Zeile ---- */
+.ico{width:56px;height:56px;border-radius:16px;background:var(--gruen-bg)}
+.ico svg{width:30px;height:30px;stroke:var(--blau);stroke-width:1.7}
+.fakten .ico{margin-bottom:.9rem}
+.ueber.ueber--text{display:block}
+.ueber--text>div{max-width:72ch}
+.cta-zeile{margin-top:3rem;padding:1.4rem 1.6rem;background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem 2rem;font-weight:700;color:var(--blau)}
+
+/* ---- v4.2: Bewegung (reduzierte Bewegung wird oben global abgeschaltet) ---- */
+@keyframes aufsteigen{from{opacity:0;transform:translateY(34px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes einblenden{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+@keyframes zoomlangsam{from{transform:scale(1.02)}to{transform:scale(1.12) translate(-1.5%,-1%)}}
+@keyframes puls{0%{box-shadow:0 0 0 0 rgba(162,216,30,.65)}70%{box-shadow:0 0 0 16px rgba(162,216,30,0)}100%{box-shadow:0 0 0 0 rgba(162,216,30,0)}}
+@keyframes glanz{0%{background-position:0% 50%}100%{background-position:200% 50%}}
+@keyframes wackeln{0%,100%{transform:rotate(0)}25%{transform:rotate(-9deg) scale(1.08)}60%{transform:rotate(7deg) scale(1.08)}}
+@keyframes fortschritt{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes schweben{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+/* Startbereich: langsamer Zoom im Bild, Text läuft nacheinander ein */
+.hero__bg img{animation:zoomlangsam 26s ease-in-out infinite alternate;transform-origin:70% 40%}
+.hero__text>*{animation:einblenden .8s cubic-bezier(.2,.7,.2,1) both}
+.hero__text>:nth-child(2){animation-delay:.12s}.hero__text>:nth-child(3){animation-delay:.24s}.hero__text>:nth-child(4){animation-delay:.36s}.hero__text>:nth-child(5){animation-delay:.48s}.hero__text>:nth-child(6){animation-delay:.6s}.hero__text>:nth-child(7){animation-delay:.72s}
+.hero h1 em{background:linear-gradient(90deg,var(--gruen),#e6fb9d,var(--gruen));background-size:200% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:var(--gruen);animation:glanz 6s linear infinite}
+.hero .btn--primaer{animation:puls 2.6s ease-out 1.6s infinite}
+.badges li{transition:transform .25s,background .25s}.badges li:hover{transform:translateY(-3px)}
+/* Kopf: Fortschrittsbalken beim Scrollen */
+.kopf{position:sticky}
+/* Karten, Icons, Bilder */
+.kachel,.fakten li,.vorteil,.schritte li,.engagement li,.galerie li,.chips li{transition:transform .3s cubic-bezier(.2,.7,.2,1),box-shadow .3s,border-color .3s,background .3s}
+.kachel:hover,.fakten li:hover,.vorteil:hover,.schritte li:hover,.engagement li:hover{transform:translateY(-6px);box-shadow:0 18px 40px -18px rgba(30,41,51,.35)}
+.kachel:hover .ico,.fakten li:hover .ico{animation:wackeln .6s ease}
+.ico{transition:background .3s}.kachel:hover .ico,.fakten li:hover .ico{background:var(--gruen)}
+.galerie li img{transition:transform .8s cubic-bezier(.2,.7,.2,1)}.galerie li:hover img{transform:scale(1.07)}.galerie li:hover{transform:translateY(-4px)}
+.chips li:hover{transform:translateY(-3px);background:var(--gruen-bg);border-color:var(--gruen)}
+.btn{transition:transform .2s,box-shadow .2s,background .2s}.btn:active{transform:scale(.97)}
+.schritte li::before{transition:transform .35s}.schritte li:hover::before{transform:scale(1.15) translateX(4px);transform-origin:left}
+.leiste a:first-child{animation:puls 2.8s ease-out infinite}
+.kopf__cta{animation:puls 3.2s ease-out 3s infinite}
+/* Einblenden beim Scrollen (nur Browser mit Scroll-Animationen; sonst ist alles sofort sichtbar) */
+@supports (animation-timeline:view()){
+  .sektion__kopf,.kachel,.fakten li,.vorteil,.schritte li,.engagement li,.galerie li,.cta-zeile,.ueber--text>div,.daten,.formular,.chips li,.faq details{animation:aufsteigen linear backwards;animation-timeline:view();animation-range:entry 0% entry 38%}
+  .chips li,.faq details{animation-name:einblenden}
+  .schnell__liste li{animation:aufsteigen linear backwards;animation-timeline:view();animation-range:entry 0% entry 55%}
+  .kopf::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:3px;background:linear-gradient(90deg,var(--blau),var(--gruen));transform-origin:0 50%;animation:fortschritt linear both;animation-timeline:scroll(root)}
+  .hero__bg{animation:none}
+}
+@media (prefers-reduced-motion:reduce){.hero h1 em{-webkit-text-fill-color:currentColor;background:none}.kopf::after{display:none}}
