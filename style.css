@@ -108,8 +108,6 @@ body:has(#ph-schalter:checked) .phtoggle__sw::after{transform:translateX(14px);b
 .knopfreihe{display:flex;flex-wrap:wrap;gap:.75rem;margin:1.5rem 0 .5rem}
 .hinweis-klein{font-size:.85rem;color:inherit;opacity:.8;margin:.5rem 0 0}
 .hero__fakt{margin-top:1.25rem;font-size:.9rem;color:#c5d2dd}
-/* Smartphone: Foto als eigener Streifen oben, damit die ganze Person sichtbar ist */
-@media (max-width:899px){.hero{display:flex;flex-direction:column}.hero__bg{position:relative;inset:auto;z-index:0;aspect-ratio:4/3;width:100%;flex:none}.hero__bg img{object-position:66% 25%}.hero__bg::after{content:"";position:absolute;inset:auto 0 0 0;height:35%;background:linear-gradient(0deg,var(--ink),transparent)}.hero::before{display:none}.hero__text{padding-top:1.25rem}}
 
 /* Schnellwahl-Streifen (Anlehnung an die alte Seite) */
 .schnell{position:relative;margin-top:calc(-1 * clamp(5rem,9vw,7.5rem));z-index:2;padding-bottom:clamp(2rem,5vw,3.5rem)}
@@ -289,3 +287,106 @@ body:has(#ph-schalter:checked) .phtoggle__sw::after{transform:translateX(14px);b
 .recht .btn--zweit,.kopf .btn--zweit{color:var(--ink)}
 .recht .btn--zweit:hover,.kopf .btn--zweit:hover{background:var(--gruen-bg)}
 @media (min-width:760px){.b-schmal{flex-direction:row!important;align-items:center}.b-schmal .kachel__text{padding:1.6rem 2rem;display:grid;grid-template-columns:auto 1fr;column-gap:1.4rem;align-items:start}.b-schmal .ico{grid-row:1/4}.b-schmal .kachel__text>*{grid-column:2}.b-schmal .kachel__text>.ico{grid-column:1}}
+/* ---- v4-Ergänzungen ---- */
+.galerie{list-style:none;margin:0;padding:0;display:grid;gap:1rem;grid-template-columns:1fr 1fr}
+.galerie li{position:relative;border-radius:var(--r,18px);overflow:hidden;background:#10151a}
+.galerie img{display:block;width:100%;height:100%;aspect-ratio:4/5;object-fit:cover}
+.galerie span{position:absolute;left:0;right:0;bottom:0;padding:2.2rem .9rem .8rem;color:#fff;font-weight:700;font-size:.95rem;background:linear-gradient(transparent,rgba(16,21,26,.88))}
+@media (min-width:760px){.galerie{grid-template-columns:repeat(3,1fr);gap:1.25rem}.galerie img{aspect-ratio:4/3}}
+.hinweis-zeile{margin:1.2rem 0 0;color:var(--gruen-t);font-weight:600}
+.sektion--dunkel .hinweis-zeile{color:var(--gruen)}
+.beleg{display:inline-block;margin-left:.4rem;vertical-align:middle}
+@media (min-width:1020px){.schritte{grid-template-columns:repeat(4,1fr)}}
+@media (min-width:760px){.b-haupt .kachel__bildrahmen{max-height:400px;overflow:hidden}.b-haupt .kachel__bild{height:400px;object-fit:cover}.b-haupt .kachel__link{margin-top:1rem}}
+
+/* ---- v4.1: Icons, Über-uns ohne Foto, Angebots-Zeile ---- */
+.ico{width:56px;height:56px;border-radius:16px;background:var(--gruen-bg)}
+.ico svg{width:30px;height:30px;stroke:var(--blau);stroke-width:1.7}
+.fakten .ico{margin-bottom:.9rem}
+.ueber.ueber--text{display:block}
+.ueber--text>div{max-width:72ch}
+.cta-zeile{margin-top:3rem;padding:1.4rem 1.6rem;background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem 2rem;font-weight:700;color:var(--blau)}
+
+/* ---- v4.2: Bewegung (reduzierte Bewegung wird oben global abgeschaltet) ---- */
+@keyframes aufsteigen{from{opacity:0;transform:translateY(34px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes einblenden{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+@keyframes zoomlangsam{from{transform:scale(1.02)}to{transform:scale(1.12) translate(-1.5%,-1%)}}
+@keyframes puls{0%{box-shadow:0 0 0 0 rgba(162,216,30,.65)}70%{box-shadow:0 0 0 16px rgba(162,216,30,0)}100%{box-shadow:0 0 0 0 rgba(162,216,30,0)}}
+@keyframes glanz{0%{background-position:0% 50%}100%{background-position:200% 50%}}
+@keyframes wackeln{0%,100%{transform:rotate(0)}25%{transform:rotate(-9deg) scale(1.08)}60%{transform:rotate(7deg) scale(1.08)}}
+@keyframes fortschritt{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes schweben{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+/* Startbereich: langsamer Zoom im Bild, Text läuft nacheinander ein */
+.hero__bg img{animation:zoomlangsam 26s ease-in-out infinite alternate;transform-origin:70% 40%}
+.hero__text>*{animation:einblenden .8s cubic-bezier(.2,.7,.2,1) both}
+.hero__text>:nth-child(2){animation-delay:.12s}.hero__text>:nth-child(3){animation-delay:.24s}.hero__text>:nth-child(4){animation-delay:.36s}.hero__text>:nth-child(5){animation-delay:.48s}.hero__text>:nth-child(6){animation-delay:.6s}.hero__text>:nth-child(7){animation-delay:.72s}
+.hero h1 em{background:linear-gradient(90deg,var(--gruen),#e6fb9d,var(--gruen));background-size:200% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:var(--gruen);animation:glanz 6s linear infinite}
+.hero .btn--primaer{animation:puls 2.6s ease-out 1.6s infinite}
+.badges li{transition:transform .25s,background .25s}.badges li:hover{transform:translateY(-3px)}
+/* Kopf: Fortschrittsbalken beim Scrollen */
+.kopf{position:sticky}
+/* Karten, Icons, Bilder */
+.kachel,.fakten li,.vorteil,.schritte li,.engagement li,.galerie li,.chips li{transition:transform .3s cubic-bezier(.2,.7,.2,1),box-shadow .3s,border-color .3s,background .3s}
+.kachel:hover,.fakten li:hover,.vorteil:hover,.schritte li:hover,.engagement li:hover{transform:translateY(-6px);box-shadow:0 18px 40px -18px rgba(30,41,51,.35)}
+.kachel:hover .ico,.fakten li:hover .ico{animation:wackeln .6s ease}
+.ico{transition:background .3s}.kachel:hover .ico,.fakten li:hover .ico{background:var(--gruen)}
+.galerie li img{transition:transform .8s cubic-bezier(.2,.7,.2,1)}.galerie li:hover img{transform:scale(1.07)}.galerie li:hover{transform:translateY(-4px)}
+.chips li:hover{transform:translateY(-3px);background:var(--gruen-bg);border-color:var(--gruen)}
+.btn{transition:transform .2s,box-shadow .2s,background .2s}.btn:active{transform:scale(.97)}
+.schritte li::before{transition:transform .35s}.schritte li:hover::before{transform:scale(1.15) translateX(4px);transform-origin:left}
+.leiste a:first-child{animation:puls 2.8s ease-out infinite}
+.kopf__cta{animation:puls 3.2s ease-out 3s infinite}
+/* Einblenden beim Scrollen (nur Browser mit Scroll-Animationen; sonst ist alles sofort sichtbar) */
+@supports (animation-timeline:view()){
+  .sektion__kopf,.kachel,.fakten li,.vorteil,.schritte li,.engagement li,.galerie li,.cta-zeile,.ueber--text>div,.daten,.formular,.chips li,.faq details{animation:aufsteigen linear backwards;animation-timeline:view();animation-range:entry 0% entry 38%}
+  .chips li,.faq details{animation-name:einblenden}
+  .schnell__liste li{animation:aufsteigen linear backwards;animation-timeline:view();animation-range:entry 0% entry 55%}
+  .kopf::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:3px;background:linear-gradient(90deg,var(--blau),var(--gruen));transform-origin:0 50%;animation:fortschritt linear both;animation-timeline:scroll(root)}
+  .hero__bg{animation:none}
+}
+@media (prefers-reduced-motion:reduce){.hero h1 em{-webkit-text-fill-color:currentColor;background:none}.kopf::after{display:none}}
+
+/* ===== Modernes Menü, Buttons und Erfahrungs-Badge (v4.1) ===== */
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+/* Burger */
+.kopf__innen{justify-content:space-between}
+.menue{margin-left:auto}
+.menue summary{display:flex;align-items:center;gap:.6rem;border:0;padding:.35rem .35rem .35rem .9rem;border-radius:99px;background:var(--bg);color:var(--blau);font-weight:700;transition:background .25s}
+.menue summary:hover{background:var(--gruen-bg)}
+.menue summary:focus-visible{outline:3px solid var(--gruen-d);outline-offset:2px}
+.burger{width:42px;height:42px;border-radius:50%;background:var(--blau);display:grid;place-content:center;gap:5px}
+.burger i{display:block;width:20px;height:2px;border-radius:2px;background:#fff;transition:transform .3s cubic-bezier(.2,.7,.2,1),opacity .2s}
+.menue[open] .burger i:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.menue[open] .burger i:nth-child(2){opacity:0}
+.menue[open] .burger i:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.menue[open] .burger{background:var(--gruen)}
+.menue[open] .burger i{background:var(--ink)}
+.menue__panel{position:fixed;left:.75rem;right:.75rem;top:76px;width:auto;max-width:420px;margin-left:auto;padding:.75rem;border:0;border-radius:24px;background:rgba(255,255,255,.98);box-shadow:0 24px 60px -16px rgba(30,41,51,.45);animation:menue-ein .28s cubic-bezier(.2,.7,.2,1)}
+@keyframes menue-ein{from{opacity:0;transform:translateY(-10px) scale(.98)}to{opacity:1;transform:none}}
+.menue__panel a:not(.btn){display:flex;align-items:center;justify-content:space-between;padding:.95rem 1.1rem;border-radius:14px;font-size:1.08rem;font-weight:700;color:var(--ink)}
+.menue__panel a:not(.btn):not(.menue__tel)::after{content:"\2192";color:var(--gruen-d);font-weight:800;transition:transform .2s}
+.menue__panel a:not(.btn):hover{background:var(--gruen-bg)}
+.menue__panel a:not(.btn):hover::after{transform:translateX(4px)}
+.menue__panel .menue__cta{width:100%;margin-top:.5rem}
+.menue__panel .menue__tel{justify-content:center;margin-top:.25rem;color:var(--blau);font-weight:800}
+@media (min-width:1020px){.menue{display:none}}
+@media (max-width:359px){.menue__text{display:none}.menue summary{padding-left:.35rem}}
+/* Buttons */
+.btn{min-height:52px;padding:.8rem 1.7rem;border-radius:16px;font-weight:800;letter-spacing:.005em}
+.btn--klein{min-height:42px;padding:.5rem 1.2rem;border-radius:14px}
+.btn--primaer{background:linear-gradient(135deg,#b6ea3a 0%,var(--gruen) 55%,#8fc417 100%);box-shadow:0 10px 24px -10px rgba(111,148,21,.85),inset 0 1px 0 rgba(255,255,255,.45)}
+.btn--primaer:hover{background:linear-gradient(135deg,#c4f04f 0%,#aee02a 55%,#9ad01e 100%);transform:translateY(-2px);box-shadow:0 16px 30px -12px rgba(111,148,21,.95),inset 0 1px 0 rgba(255,255,255,.5)}
+.btn--primaer::after{content:"\2192";font-weight:800;transition:transform .2s}
+.btn--primaer:hover::after{transform:translateX(4px)}
+.btn--zweit{border-width:2px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.hero .btn--zweit{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.55);color:#fff}
+.hero .btn--zweit:hover{background:#fff;color:var(--ink);border-color:#fff}
+.btn:focus-visible{outline:3px solid #fff;outline-offset:3px;box-shadow:0 0 0 6px var(--gruen-d)}
+/* 10+ Jahre Erfahrung */
+.hero__fakt{display:inline-flex;align-items:center;gap:1rem;margin-top:1.5rem;padding:.8rem 1.3rem .8rem .9rem;border-radius:18px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 14px 30px -16px rgba(0,0,0,.5);color:#e6eef5;font-size:.95rem;line-height:1.35}
+.hero__zahl{font-size:clamp(2.4rem,7vw,3.2rem);font-weight:800;line-height:1;letter-spacing:-.03em;color:var(--ink);background:var(--gruen);padding:.3rem .65rem .35rem;border-radius:14px;box-shadow:0 8px 20px -8px rgba(162,216,30,.8)}
+.hero__fakt-text{display:block}
+.hero__fakt-text strong{display:block;font-size:1.15rem;color:#fff;margin-bottom:.1rem}
+
+/* Smartphone: Foto als eigener Streifen */
+@media (max-width:899px){.hero{display:flex;flex-direction:column}.hero__bg{position:relative;inset:auto;z-index:0;aspect-ratio:4/3;width:100%;flex:none}.hero__bg img{object-position:66% 25%}.hero__bg::after{content:"";position:absolute;inset:auto 0 0 0;height:35%;background:linear-gradient(0deg,var(--ink),transparent)}.hero::before{display:none}.hero__text{padding-top:1.25rem}}
