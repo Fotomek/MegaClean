@@ -64,7 +64,7 @@
     <a class="marke" href="#start" aria-label="Mega Clean Berlin – zum Seitenanfang"><svg class="logo" role="img" aria-label="Mega Clean Berlin" viewBox="28 12 1446 235" focusable="false"><use href="#mc-logo"/></svg></a>
     <nav class="nav nav--desk" aria-label="Hauptnavigation"><ul><li><a href="#start">Home</a></li><li><a href="#leistungen">Leistungen</a></li><li><a href="#vorteile">Vorteile</a></li><li><a href="#ablauf">Ablauf</a></li><li><a href="#referenzen">Referenzen</a></li><li><a href="#kontakt">Kontakt</a></li></ul></nav>
     <a class="btn btn--klein btn--primaer kopf__cta" href="#kontakt">Jetzt kostenlos anfragen</a>
-    <details class="menue"><summary>Menü</summary><nav class="nav menue__panel" aria-label="Mobilnavigation"><ul><li><a href="#start">Home</a></li><li><a href="#leistungen">Leistungen</a></li><li><a href="#vorteile">Vorteile</a></li><li><a href="#ablauf">Ablauf</a></li><li><a href="#referenzen">Referenzen</a></li><li><a href="#kontakt">Kontakt</a></li></ul></nav></details>
+    <details class="menue" id="burger"><summary aria-label="Menü öffnen oder schließen"><span class="burger" aria-hidden="true"><i></i><i></i><i></i></span><span class="menue__text">Menü</span></summary><nav class="nav menue__panel" aria-label="Mobilnavigation"><ul><li><a href="#start">Home</a></li><li><a href="#leistungen">Leistungen</a></li><li><a href="#vorteile">Vorteile</a></li><li><a href="#ablauf">Ablauf</a></li><li><a href="#referenzen">Referenzen</a></li><li><a href="#kontakt">Kontakt</a></li></ul><a class="btn btn--primaer menue__cta" href="#kontakt">Jetzt kostenlos anfragen</a><a class="menue__tel" href="tel:+491797656862">0179 76 56 862</a></nav></details>
   </div>
 </header>
 
@@ -83,7 +83,7 @@
         <a class="btn btn--zweit" href="tel:+491797656862">0179 76 56 862</a>
       </p>
       <p class="hinweis-klein">100% unverbindlich &amp; kostenlos – Antwort innerhalb von 24h <span class="bestaetigen beleg">Zusage prüfen</span></p>
-      <p class="hero__fakt"><strong>10+</strong> Jahre Erfahrung <span class="bestaetigen beleg">Beleg nötig</span></p>
+      <p class="hero__fakt"><span class="hero__zahl" aria-hidden="true">10+</span><span class="hero__fakt-text"><strong>Jahre Erfahrung</strong><span class="sr-only">10 plus </span> in der Gebäudereinigung <span class="bestaetigen beleg">Beleg nötig</span></span></p>
     </div>
   </div>
 </section>
@@ -307,6 +307,13 @@ var els=[].filter.call(document.querySelectorAll('.fakten__wert'),function(e){re
 var io=new IntersectionObserver(function(es){es.forEach(function(en){if(!en.isIntersecting)return;io.unobserve(en.target);var e=en.target,t=e.textContent.trim(),suf=t.slice(-1),n=parseInt(t.slice(0,-1).replace(/\./g,''),10),st=null,d=1400;e.setAttribute('aria-label',t);
 function f(ts){if(!st)st=ts;var p=Math.min((ts-st)/d,1),v=Math.round(n*(1-Math.pow(1-p,3)));e.textContent=v.toLocaleString('de-DE')+suf;if(p<1)requestAnimationFrame(f);}requestAnimationFrame(f);});},{threshold:.6});
 els.forEach(function(e){io.observe(e);});})();
+</script>
+<script>
+/* Burger-Menü: schließt nach Klick auf einen Link, per Escape oder Klick daneben. */
+(function(){var d=document.getElementById('burger');if(!d)return;
+d.addEventListener('click',function(e){if(e.target.closest('a'))d.removeAttribute('open');});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')d.removeAttribute('open');});
+document.addEventListener('click',function(e){if(d.open&&!d.contains(e.target))d.removeAttribute('open');});})();
 </script>
 </body>
 </html>
