@@ -391,6 +391,6 @@ body:has(#ph-schalter:checked) .phtoggle__sw::after{transform:translateX(14px);b
 /* Smartphone: Foto als eigener Streifen */
 @media (max-width:899px){.hero{display:flex;flex-direction:column}.hero__bg{position:relative;inset:auto;z-index:0;aspect-ratio:4/3;width:100%;flex:none}.hero__bg img{object-position:66% 25%}.hero__bg::after{content:"";position:absolute;inset:auto 0 0 0;height:35%;background:linear-gradient(0deg,var(--ink),transparent)}.hero::before{display:none}.hero__text{padding-top:1.25rem}}
 
-/* Header: ruhiges Bild, Person rechts, Text links darüber (v4.5) */
+/* Header: ruhiges Bild, Person rechts, Text links darüber (v4.6) */
 .hero__bg img{object-position:85% 50%}
-@media (max-width:899px){.hero__bg img{object-position:78% 38%;transform:scale(1.5);transform-origin:78% 38%}.hero__bg{overflow:hidden}}
+@media (max-width:899px){.hero__bg img{object-position:72% 40%;transform:scale(1.45);transform-origin:72% 40%}.hero__bg{overflow:hidden}}
