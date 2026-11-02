@@ -1,6 +1,5 @@
 /* Mega Clean Berlin – Vorschau v4. Reine CSS-Seite, keine externen Dienste.
-   v4: Farbpalette aus dem Logo abgeleitet (Logo-Blau #42586d, Logo-Grün #a2d81e; dunklere/hellere Töne für Kontrast AA).
-   Gelb (--gelb) bleibt bewusst Platzhalter-Markierung. */
+   v4: Farbpalette aus dem Logo abgeleitet (Logo-Blau #42586d, Logo-Grün #a2d81e; dunklere/hellere Töne für Kontrast AA). */
 @font-face{font-family:"Plus Jakarta Sans";src:url("fonts/PlusJakartaSans.woff2") format("woff2");font-weight:200 800;font-display:swap}
 :root{
   /* Logo-Farben (gemessen am Original): Blau #42586d, Grün #a2d81e */
@@ -13,7 +12,6 @@
   --gruen-t:#516b0f;         /* Grün für Text/Links auf hellem Grund (6,1:1 auf Weiß) */
   --gruen-bg:#eef8d2;
   --bg:#f3f6f8;--card:#fff;--line:#dde4ea;--mut:#465a6d;
-  --gelb:#fff1a8;--gelb-t:#5a4800;
   --r:20px;--r-s:12px;--sh:0 1px 2px rgba(30,41,51,.06),0 10px 30px -12px rgba(30,41,51,.18);
   --max:1160px;
 }
@@ -37,18 +35,6 @@ ul,ol{margin:0;padding:0;list-style:none}
 .sprunglink{position:absolute;left:-999px;top:8px;background:#fff;color:var(--ink);padding:.6rem 1rem;border-radius:8px;z-index:100}
 .sprunglink:focus{left:8px}
 
-/* Platzhalter */
-.platzhalter{background:var(--gelb);color:var(--gelb-t);padding:.05em .4em;border-radius:6px;font-size:.92em;box-decoration-break:clone;-webkit-box-decoration-break:clone}
-.bestaetigen{font-size:.8em;font-weight:600;color:var(--gelb-t);background:var(--gelb);padding:.05em .45em;border-radius:99px;white-space:nowrap}
-.vorschau{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;background:var(--gelb);color:var(--gelb-t);padding:.2em .6em;border-radius:99px;vertical-align:middle;margin-left:.4rem}
-#ph-schalter{position:absolute;opacity:0;pointer-events:none}
-body:has(#ph-schalter:not(:checked)) .platzhalter,body:has(#ph-schalter:not(:checked)) .bestaetigen{display:none}
-.phtoggle{display:inline-flex;align-items:center;gap:.5rem;cursor:pointer;font-size:.8rem;color:#e6edf3}
-.phtoggle__sw{width:34px;height:20px;border-radius:99px;background:#2c3c4b;border:1px solid #9fb2c3;position:relative;transition:background .2s}
-.phtoggle__sw::after{content:"";position:absolute;left:2px;top:2px;width:14px;height:14px;border-radius:50%;background:#fff;transition:transform .2s}
-#ph-schalter:checked~.topleiste .phtoggle__sw,body:has(#ph-schalter:checked) .phtoggle__sw{background:var(--gruen-d)}
-body:has(#ph-schalter:checked) .phtoggle__sw::after{transform:translateX(14px);background:var(--ink)}
-#ph-schalter:focus-visible~.topleiste .phtoggle__sw{outline:3px solid var(--gruen)}
 
 /* Buttons */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;min-height:48px;padding:.75rem 1.5rem;border-radius:99px;font:inherit;font-weight:700;font-size:1rem;text-decoration:none;border:2px solid transparent;cursor:pointer;transition:transform .15s,box-shadow .15s,background .15s;line-height:1.2}
@@ -107,7 +93,6 @@ body:has(#ph-schalter:checked) .phtoggle__sw::after{transform:translateX(14px);b
 .badges li::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--gruen)}
 .knopfreihe{display:flex;flex-wrap:wrap;gap:.75rem;margin:1.5rem 0 .5rem}
 .hinweis-klein{font-size:.85rem;color:inherit;opacity:.8;margin:.5rem 0 0}
-.hero__fakt{margin-top:1.25rem;font-size:.9rem;color:#c5d2dd}
 
 /* Schnellwahl-Streifen (Anlehnung an die alte Seite) */
 .schnell{position:relative;margin-top:calc(-1 * clamp(5rem,9vw,7.5rem));z-index:2;padding-bottom:clamp(2rem,5vw,3.5rem)}
@@ -187,12 +172,14 @@ body:has(#ph-schalter:checked) .phtoggle__sw::after{transform:translateX(14px);b
 .fakten__label{color:var(--mut);font-size:.95rem}
 
 /* Vorteile */
-.vorteile{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.vorteile{display:grid;gap:1rem;grid-template-columns:1fr}
+/* 5 Kacheln ohne Lücke: Tablet 2+2+1 (letzte breit), Desktop 3+2 */
+@media (min-width:600px){.vorteile{grid-template-columns:repeat(2,1fr)}.vorteil:last-child:nth-child(odd){grid-column:1/-1}}
+@media (min-width:1020px){.vorteile{grid-template-columns:repeat(6,1fr)}.vorteil{grid-column:span 2}.vorteil:nth-last-child(-n+2):nth-child(n+4){grid-column:span 3}}
 .vorteil{background:var(--blau-m);border:1px solid rgba(255,255,255,.1);border-radius:var(--r);padding:1.6rem}
 .vorteil svg{width:30px;height:30px;fill:none;stroke:var(--gruen);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;margin-bottom:1rem}
 .vorteil h3{color:#fff}
 .vorteil p{color:#d6e0e9;font-size:.98rem;margin:0}
-.sektion--dunkel .platzhalter{background:#4b4210;color:#ffe98a}
 
 /* Ablauf */
 .schritte{display:grid;gap:1rem;counter-reset:s}
@@ -215,11 +202,6 @@ body:has(#ph-schalter:checked) .phtoggle__sw::after{transform:translateX(14px);b
 .liste--haken li::before{content:"✓";color:var(--gruen-t)}
 .liste--strich li::before{content:"–";color:var(--mut)}
 
-/* Engagement */
-.engagement{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
-.engagement li{background:var(--card);border:1px dashed #cbbf7a;border-radius:var(--r);padding:1.3rem}
-.engagement h3{font-size:1.05rem}
-.engagement p{margin:0}
 
 /* Einsatzgebiet */
 .chips{display:flex;flex-wrap:wrap;gap:.5rem;margin:1rem 0}
@@ -259,7 +241,7 @@ body:has(#ph-schalter:checked) .phtoggle__sw::after{transform:translateX(14px);b
 .feld--check label{font-weight:500;margin:0}
 .feld-zwei{display:grid;gap:0 1rem}
 @media (min-width:600px){.feld-zwei{grid-template-columns:1fr 1fr}}
-.formular__hinweis{background:var(--gelb);color:var(--gelb-t);border-radius:var(--r-s);padding:.8rem 1rem;font-size:.9rem;margin-top:1rem}
+.formular__hinweis{background:var(--bg);color:var(--ink);border-radius:var(--r-s);padding:.8rem 1rem;font-size:.9rem;margin-top:1rem}
 
 /* Fuß */
 .fuss{background:#18232d;color:#c5d2dd;padding:3rem 0 6rem;font-size:.95rem}
@@ -271,7 +253,6 @@ body:has(#ph-schalter:checked) .phtoggle__sw::after{transform:translateX(14px);b
 .fuss a:hover{color:var(--gruen)}
 .fuss li{margin-bottom:.35rem}
 .fuss__copy{margin-top:2rem;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.1);font-size:.85rem}
-.fuss .platzhalter{background:#4b4210;color:#ffe98a}
 
 /* Mobile Schnellkontakt */
 .leiste{position:fixed;left:0;right:0;bottom:0;z-index:60;display:grid;grid-template-columns:1fr 1fr;gap:.5rem;padding:.6rem .75rem calc(.6rem + env(safe-area-inset-bottom));background:rgba(30,41,51,.97);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
@@ -283,7 +264,6 @@ body:has(#ph-schalter:checked) .phtoggle__sw::after{transform:translateX(14px);b
 .recht{padding:3rem 0 4rem;background:#fff}
 .recht h1{font-size:2.2rem}
 .recht h2{font-size:1.2rem;margin-top:1.8rem}
-.warnung{background:var(--gelb);color:var(--gelb-t);padding:1rem 1.2rem;border-radius:var(--r-s)}
 .recht .btn--zweit,.kopf .btn--zweit{color:var(--ink)}
 .recht .btn--zweit:hover,.kopf .btn--zweit:hover{background:var(--gruen-bg)}
 @media (min-width:760px){.b-schmal{flex-direction:row!important;align-items:center}.b-schmal .kachel__text{padding:1.6rem 2rem;display:grid;grid-template-columns:auto 1fr;column-gap:1.4rem;align-items:start}.b-schmal .ico{grid-row:1/4}.b-schmal .kachel__text>*{grid-column:2}.b-schmal .kachel__text>.ico{grid-column:1}}
@@ -293,9 +273,6 @@ body:has(#ph-schalter:checked) .phtoggle__sw::after{transform:translateX(14px);b
 .galerie img{display:block;width:100%;height:100%;aspect-ratio:4/5;object-fit:cover}
 .galerie span{position:absolute;left:0;right:0;bottom:0;padding:2.2rem .9rem .8rem;color:#fff;font-weight:700;font-size:.95rem;background:linear-gradient(transparent,rgba(16,21,26,.88))}
 @media (min-width:760px){.galerie{grid-template-columns:repeat(3,1fr);gap:1.25rem}.galerie img{aspect-ratio:4/3}}
-.hinweis-zeile{margin:1.2rem 0 0;color:var(--gruen-t);font-weight:600}
-.sektion--dunkel .hinweis-zeile{color:var(--gruen)}
-.beleg{display:inline-block;margin-left:.4rem;vertical-align:middle}
 @media (min-width:1020px){.schritte{grid-template-columns:repeat(4,1fr)}}
 @media (min-width:760px){.b-haupt .kachel__bildrahmen{max-height:400px;overflow:hidden}.b-haupt .kachel__bild{height:400px;object-fit:cover}.b-haupt .kachel__link{margin-top:1rem}}
 
@@ -382,11 +359,6 @@ body:has(#ph-schalter:checked) .phtoggle__sw::after{transform:translateX(14px);b
 .hero .btn--zweit{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.55);color:#fff}
 .hero .btn--zweit:hover{background:#fff;color:var(--ink);border-color:#fff}
 .btn:focus-visible{outline:3px solid #fff;outline-offset:3px;box-shadow:0 0 0 6px var(--gruen-d)}
-/* 10+ Jahre Erfahrung */
-.hero__fakt{display:inline-flex;align-items:center;gap:1rem;margin-top:1.5rem;padding:.8rem 1.3rem .8rem .9rem;border-radius:18px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 14px 30px -16px rgba(0,0,0,.5);color:#e6eef5;font-size:.95rem;line-height:1.35}
-.hero__zahl{font-size:clamp(2.4rem,7vw,3.2rem);font-weight:800;line-height:1;letter-spacing:-.03em;color:var(--ink);background:var(--gruen);padding:.3rem .65rem .35rem;border-radius:14px;box-shadow:0 8px 20px -8px rgba(162,216,30,.8)}
-.hero__fakt-text{display:block}
-.hero__fakt-text strong{display:block;font-size:1.15rem;color:#fff;margin-bottom:.1rem}
 
 /* Smartphone: Foto als eigener Streifen */
 @media (max-width:899px){.hero{display:flex;flex-direction:column}.hero__bg{position:relative;inset:auto;z-index:0;aspect-ratio:4/3;width:100%;flex:none}.hero__bg img{object-position:66% 25%}.hero__bg::after{content:"";position:absolute;inset:auto 0 0 0;height:35%;background:linear-gradient(0deg,var(--ink),transparent)}.hero::before{display:none}.hero__text{padding-top:1.25rem}}
