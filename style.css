@@ -175,7 +175,7 @@ ul,ol{margin:0;padding:0;list-style:none}
 .vorteile{display:grid;gap:1rem;grid-template-columns:1fr}
 /* 5 Kacheln ohne Lücke: Tablet 2+2+1 (letzte breit), Desktop 3+2 */
 @media (min-width:600px){.vorteile{grid-template-columns:repeat(2,1fr)}.vorteil:last-child:nth-child(odd){grid-column:1/-1}}
-@media (min-width:1020px){.vorteile{grid-template-columns:repeat(6,1fr)}.vorteil{grid-column:span 2}.vorteil:nth-last-child(-n+2):nth-child(n+4){grid-column:span 3}}
+@media (min-width:1020px){.vorteile{grid-template-columns:repeat(6,1fr)}.vorteil{grid-column:span 2}.vorteil:nth-child(4):nth-last-child(2),.vorteil:nth-child(5):last-child{grid-column:span 3}}
 .vorteil{background:var(--blau-m);border:1px solid rgba(255,255,255,.1);border-radius:var(--r);padding:1.6rem}
 .vorteil svg{width:30px;height:30px;fill:none;stroke:var(--gruen);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;margin-bottom:1rem}
 .vorteil h3{color:#fff}
@@ -366,3 +366,27 @@ ul,ol{margin:0;padding:0;list-style:none}
 /* Header: ruhiges Bild, Person rechts, Text links darüber (v4.6) */
 .hero__bg img{object-position:85% 50%}
 @media (max-width:899px){.hero__bg img{object-position:72% 40%;transform:scale(1.45);transform-origin:72% 40%}.hero__bg{overflow:hidden}}
+
+
+/* ---- 05.11.2026 Sarah: Über-uns-Foto, Tropfen-Loader, Cookie-Hinweis ---- */
+.ueber__bild{margin:0;border-radius:var(--r);overflow:hidden;box-shadow:var(--sh);background:var(--card)}
+.ueber__bild img{width:100%;height:100%;aspect-ratio:4/3;object-fit:cover;display:block}
+@media (min-width:860px){.ueber__bild img{aspect-ratio:4/5;min-height:420px}}
+
+.seite-laden{position:fixed;inset:0;z-index:200;display:grid;place-items:center;background:rgba(243,246,248,.92);transition:opacity .4s ease,visibility .4s}
+.seite-laden--weg{opacity:0;visibility:hidden;pointer-events:none}
+.tropfen{width:28px;height:40px;background:linear-gradient(180deg,var(--gruen) 0%,var(--blau) 100%);border-radius:50% 50% 50% 50% / 60% 60% 40% 40%;transform:rotate(180deg);animation:tropfen-fall 1.05s ease-in-out infinite;box-shadow:0 8px 18px -10px rgba(66,88,109,.55)}
+.tropfen::after{content:"";position:absolute;width:10px;height:10px;background:rgba(255,255,255,.55);border-radius:50%;top:10px;left:8px}
+@keyframes tropfen-fall{0%,100%{transform:rotate(180deg) translateY(0) scale(1);opacity:.95}50%{transform:rotate(180deg) translateY(10px) scale(.92);opacity:1}}
+@media (prefers-reduced-motion:reduce){.tropfen{animation:none}}
+
+.cookie-hinweis{position:fixed;left:1rem;right:1rem;bottom:calc(1rem + env(safe-area-inset-bottom));z-index:180;max-width:520px;margin-inline:auto;background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:var(--r-s);box-shadow:0 18px 40px -16px rgba(30,41,51,.45);padding:1rem 1.15rem}
+.cookie-hinweis__innen{display:grid;gap:.7rem}
+.cookie-hinweis p{margin:0;font-size:.92rem;line-height:1.45;color:var(--mut)}
+.cookie-hinweis p#cookie-titel{color:var(--ink);font-size:1rem}
+.cookie-hinweis .btn{justify-self:start}
+@media (min-width:760px){.cookie-hinweis{left:1.5rem;right:auto;bottom:1.5rem}}
+@media (max-width:759px){.cookie-hinweis{bottom:calc(4.6rem + env(safe-area-inset-bottom))}}
+
+.topleiste__hinweis{margin:0;font-size:.82rem;line-height:1.4}
+.topleiste__hinweis strong{color:#fff;font-weight:700}
