@@ -13,7 +13,7 @@ if (PHP_SAPI !== 'cli') {
 return [
     'enabled' => false,
     'mailbox_confirmed' => false,
-    // Vorgesehenes öffentliches Geschäftspostfach. Eingang ist nicht geprüft.
+    // Beispiel für die öffentliche Website-Adresse. mailbox_confirmed bleibt false.
     'recipient' => 'info@megacleanberlin.de',
     'from' => 'website@example.invalid',
     'allowed_hosts' => ['example.invalid'],

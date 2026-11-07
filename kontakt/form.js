@@ -79,14 +79,19 @@
       });
   }
   var button = form.querySelector('button[type="submit"]');
-  if (button) button.disabled = true;
+  function setButtonReady(ready) {
+    if (!button) return;
+    button.disabled = !ready;
+    button.setAttribute('aria-disabled', ready ? 'false' : 'true');
+  }
+  setButtonReady(false);
   setStatus('Das Formular ist noch nicht freigeschaltet.', '');
   loadToken().then(function () {
-    if (button) button.disabled = false;
+    setButtonReady(true);
     setStatus('', '');
   }).catch(function () {
     csrf = '';
-    if (button) button.disabled = true;
+    setButtonReady(false);
     setStatus('Das Formular ist noch nicht freigeschaltet.', '');
   });
 
@@ -117,6 +122,14 @@
         if (result.body && result.body.accepted === true && result.body.delivery === 'unconfirmed') {
           setStatus('Der Server hat die Anfrage angenommen.', 'ok');
           form.reset();
+          csrf = '';
+          setButtonReady(false);
+          loadToken().then(function () {
+            setButtonReady(true);
+          }).catch(function () {
+            csrf = '';
+            setButtonReady(false);
+          });
           return;
         }
         if (result.body && result.body.error === 'not_configured') {

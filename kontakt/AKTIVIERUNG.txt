@@ -44,16 +44,7 @@ GitHub Pages führt kein PHP aus und versendet dieses Formular nicht.
    Rückgabe true von mail() ist keine Zustellbestätigung.
 
 Rate-Limit: Dateien r-<hash>.json im privaten Ordner. Der Dateiname ist
-ein HMAC der IP, nicht die IP im Klartext. Nach Ablauf des Stundenfensters
-(3600 Sekunden) löscht der nächste Aufruf abgelaufene Dateien. Sie bleiben
-nicht dauerhaft liegen.
-
-Go-Live-Blocker, nicht auf der Website ausformuliert:
-- Rechtsform, heutige Rolle von Philipp Andersen, Register, aktuelle
-  Bestätigung der Geschäftsanschrift. USt- und Wirtschafts-ID sind
-  kundenseitig nicht vergeben und werden nicht erneut angefordert.
-- STRATO Hosting Plus und megacleanberlin.de sind kundenseitig genannt,
-  hier aber nicht aufgeschaltet. Diese Vorschau bleibt GitHub Pages.
-- KI: Begrüßung als KI mit Datenschutzverweis, Aufnahme/Transkription,
-  Speicherfrist, Training, Drittlandtransfer, abgeschlossene AVV.
-  Kundenwortlaut: kundenquelle-strato-ki.txt. Abweichungen stehen dort.
+ein HMAC der IP, nicht die IP im Klartext. Eine Datei, deren Stundenfenster
+(3600 Sekunden) abgelaufen ist, löscht erst der nächste Aufruf, der das
+Limit prüft. Ohne diesen Aufruf bleibt sie liegen. Es gibt keinen
+zeitgesteuerten Löschlauf.

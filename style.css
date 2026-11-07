@@ -280,7 +280,8 @@ ul,ol{margin:0;padding:0;list-style:none}
 .galerie{list-style:none;margin:0;padding:0;display:grid;gap:1rem;grid-template-columns:1fr 1fr}
 .galerie li{position:relative;border-radius:var(--r,18px);overflow:hidden;background:#10151a}
 .galerie img{display:block;width:100%;height:100%;aspect-ratio:4/5;object-fit:cover}
-.galerie span{position:absolute;left:0;right:0;bottom:0;padding:2.2rem .9rem .8rem;color:#fff;font-weight:700;font-size:.95rem;background:linear-gradient(transparent,rgba(16,21,26,.88))}
+.galerie span{position:absolute;left:0;right:0;bottom:0;padding:2.2rem .9rem .8rem;color:#fff;font-weight:700;font-size:.95rem;line-height:1.25;hyphens:manual;background:linear-gradient(transparent,rgba(16,21,26,.88))}
+@media (max-width:359px){.galerie span{padding-left:.45rem;padding-right:.45rem;font-size:.82rem}}
 @media (max-width:759px){.galerie li:last-child:nth-child(odd){grid-column:1/-1}}
 @media (min-width:760px){.galerie{grid-template-columns:repeat(3,1fr);gap:1.25rem}.galerie img{aspect-ratio:4/3}}
 @media (min-width:1020px){.schritte{grid-template-columns:repeat(4,1fr)}}

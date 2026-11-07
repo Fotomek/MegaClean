@@ -35,7 +35,7 @@
 <p>Die Seite kundenformular.html speichert Entwürfe der dort eingegebenen Antworten im localStorage unter dem Schlüssel megaclean-kundenformular, bis die Browserdaten dieser Seite gelöscht werden. Sie sendet die Entwürfe nicht an einen Server.</p>
 <h2>Kontaktformular</h2>
 <p>Das Formular ist noch nicht freigeschaltet und sendet nichts. Wenn es freigeschaltet ist, überträgt es Name, E-Mail, eine freiwillige Telefonnummer und die Nachricht an info@megacleanberlin.de über einen eigenen PHP-Endpunkt auf dem dann betriebenen Host. Ein fremder Formulardienst ist nicht eingebunden.</p>
-<p>Nur auf diesem PHP-Host entsteht eine Sitzungscookie, und nur für die Dauer der Browser-Sitzung, um fremde Aufrufe abzuweisen. Nachrichtentexte werden nicht gespeichert. Ein Zähler gegen zu viele Anfragen liegt außerhalb des öffentlichen Verzeichnisses und wird nach einer Stunde gelöscht.</p>
+<p>Nur auf diesem PHP-Host entsteht eine Sitzungscookie, und nur für die Dauer der Browser-Sitzung, um fremde Aufrufe abzuweisen. Die Anwendung schreibt den Nachrichtentext nicht in ein eigenes Protokoll. Die angenommene Nachricht liegt als E-Mail im Postfach info@megacleanberlin.de. Ein Zähler gegen zu viele Anfragen liegt außerhalb des öffentlichen Verzeichnisses. Eine abgelaufene Zählerdatei löscht erst der nächste Aufruf, der das Limit prüft. Ohne diesen Aufruf bleibt sie über eine Stunde hinaus liegen.</p>
 <h2>Ihre Rechte</h2>
 <p>Sie haben nach der Datenschutz-Grundverordnung (DSGVO) das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Widerspruch und Datenübertragbarkeit sowie das Recht auf Beschwerde bei einer Datenschutz-Aufsichtsbehörde.</p>
 </div></main>
