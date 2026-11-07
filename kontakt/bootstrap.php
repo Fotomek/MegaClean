@@ -50,7 +50,7 @@ function wants_json(): bool
 function public_text(array $body): string
 {
     if (!empty($body['accepted'])) {
-        return 'Der Server hat die Anfrage angenommen. Das bestätigt nicht, dass die E-Mail angekommen ist.';
+        return 'Der Server hat die Anfrage angenommen.';
     }
     if (($body['error'] ?? '') === 'not_configured') {
         return 'Das Formular ist auf diesem Server nicht freigeschaltet. Es wurde nichts gesendet.';

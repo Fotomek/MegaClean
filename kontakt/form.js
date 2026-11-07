@@ -78,7 +78,17 @@
         csrf = token.csrf;
       });
   }
-  loadToken().catch(function () { csrf = ''; });
+  var button = form.querySelector('button[type="submit"]');
+  if (button) button.disabled = true;
+  setStatus('Das Formular ist noch nicht freigeschaltet.', '');
+  loadToken().then(function () {
+    if (button) button.disabled = false;
+    setStatus('', '');
+  }).catch(function () {
+    csrf = '';
+    if (button) button.disabled = true;
+    setStatus('Das Formular ist noch nicht freigeschaltet.', '');
+  });
 
   form.addEventListener('submit', function (event) {
     event.preventDefault();
@@ -105,7 +115,7 @@
       })
       .then(function (result) {
         if (result.body && result.body.accepted === true && result.body.delivery === 'unconfirmed') {
-          setStatus('Der Server hat die Anfrage angenommen. Das bestätigt nicht, dass die E-Mail angekommen ist.', 'ok');
+          setStatus('Der Server hat die Anfrage angenommen.', 'ok');
           form.reset();
           return;
         }

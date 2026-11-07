@@ -152,5 +152,35 @@ $empty = [];
 $r = handle([], $post, server(), $empty, $now, new FakeTransport());
 check('no config no accept', $r['status'] === 503 && $r['body']['accepted'] === false);
 
+$stale = $dir . '/r-stale.json';
+file_put_contents($stale, json_encode(['start' => $now - RATE_WINDOW - 5, 'n' => 1]));
+$freshHash = hash_hmac('sha256', '203.0.113.50', str_repeat('k', 32));
+$fresh = $dir . '/r-' . $freshHash . '.json';
+file_put_contents($fresh, json_encode(['start' => $now - 10, 'n' => 1]));
+$session = [];
+$token = issue_token($session, $now - 10);
+$purgePost = $post;
+$purgePost['csrf'] = $token;
+$purgePost['email'] = 'purge@example.com';
+$purgeServer = server();
+$purgeServer['REMOTE_ADDR'] = '203.0.113.77';
+handle(base_cfg($dir), $purgePost, $purgeServer, $session, $now, new FakeTransport());
+check('stale rate file removed', !is_file($stale));
+check('fresh rate file kept', is_file($fresh));
+
+$session = [];
+$token = issue_token($session, $now - 10);
+$umlaut = $post;
+$umlaut['csrf'] = $token;
+$umlaut['name'] = 'Jörg Müller';
+$umlaut['message'] = 'Tür und Straße';
+$umlaut['email'] = 'joerg@example.com';
+$utf = new FakeTransport();
+$ur = handle(base_cfg($dir), $umlaut, server(), $session, $now, $utf);
+$decoded = quoted_printable_decode($utf->accepted[0]['body']);
+check('umlaut accepted', $ur['body']['accepted'] === true);
+check('umlaut body', str_contains($decoded, 'Jörg Müller') && str_contains($decoded, 'Tür und Straße'));
+check('utf8 quoted printable', str_contains($utf->accepted[0]['headers'], 'charset=UTF-8') && str_contains($utf->accepted[0]['headers'], 'quoted-printable'));
+
 echo $fail === 0 ? "ALL OK\n" : "FAILURES $fail\n";
 exit($fail === 0 ? 0 : 1);

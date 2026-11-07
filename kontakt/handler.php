@@ -151,13 +151,31 @@ function clean_text(string $value): string
     return trim($value);
 }
 
+function rate_purge(string $dir, int $now): void
+{
+    $files = glob(rtrim($dir, '/') . '/r-*.json');
+    if (!is_array($files)) {
+        return;
+    }
+    foreach ($files as $file) {
+        $raw = file_get_contents($file);
+        $data = json_decode(is_string($raw) ? $raw : '', true);
+        $start = is_array($data) ? (int) ($data['start'] ?? 0) : 0;
+        if ($start === 0 || ($now - $start) >= RATE_WINDOW) {
+            unlink($file);
+        }
+    }
+}
+
 function rate_allow(array $cfg, string $ip, int $now): bool
 {
     if ($ip === '') {
         return false;
     }
+    $dir = rtrim((string) $cfg['storage_dir'], '/');
+    rate_purge($dir, $now);
     $hash = hash_hmac('sha256', $ip, (string) $cfg['hmac_key']);
-    $path = rtrim((string) $cfg['storage_dir'], '/') . '/r-' . $hash . '.json';
+    $path = $dir . '/r-' . $hash . '.json';
     $fh = fopen($path, 'c+');
     if ($fh === false) {
         return false;
@@ -248,9 +266,11 @@ function handle(array $cfg, array $post, array $server, array &$session, int $no
         return $fail(429, 'rate');
     }
 
-    $body = "Name: {$name}\nE-Mail: {$email}\nTelefon: " . ($phone === '' ? '-' : $phone) . "\n\nNachricht:\n{$message}\n";
+    $plain = "Name: {$name}\nE-Mail: {$email}\nTelefon: " . ($phone === '' ? '-' : $phone) . "\n\nNachricht:\n{$message}\n";
+    $body = quoted_printable_encode($plain);
     $headers = "MIME-Version: 1.0\r\n"
         . "Content-Type: text/plain; charset=UTF-8\r\n"
+        . "Content-Transfer-Encoding: quoted-printable\r\n"
         . 'From: ' . $cfg['from'] . "\r\n"
         . 'Reply-To: ' . $email . "\r\n";
     $packet = [

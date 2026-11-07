@@ -38,3 +38,22 @@ GitHub Pages führt kein PHP aus und versendet dieses Formular nicht.
    Diese Mail wird hier nicht abgeschickt.
 8. Erst wenn das Postfach die Testmail zeigt, mailbox_confirmed auf true lassen.
    Vorher bleibt der Endpunkt bei 503 und sendet nichts.
+   Die öffentliche Seite sagt das nicht. info@megacleanberlin.de ist die
+   bestätigte Website-Adresse und das vorgesehene Formularziel. Ein
+   Zustelltest ist davon getrennt und hier nicht erfolgt.
+   Rückgabe true von mail() ist keine Zustellbestätigung.
+
+Rate-Limit: Dateien r-<hash>.json im privaten Ordner. Der Dateiname ist
+ein HMAC der IP, nicht die IP im Klartext. Nach Ablauf des Stundenfensters
+(3600 Sekunden) löscht der nächste Aufruf abgelaufene Dateien. Sie bleiben
+nicht dauerhaft liegen.
+
+Go-Live-Blocker, nicht auf der Website ausformuliert:
+- Rechtsform, heutige Rolle von Philipp Andersen, Register, aktuelle
+  Bestätigung der Geschäftsanschrift. USt- und Wirtschafts-ID sind
+  kundenseitig nicht vergeben und werden nicht erneut angefordert.
+- STRATO Hosting Plus und megacleanberlin.de sind kundenseitig genannt,
+  hier aber nicht aufgeschaltet. Diese Vorschau bleibt GitHub Pages.
+- KI: Begrüßung als KI mit Datenschutzverweis, Aufnahme/Transkription,
+  Speicherfrist, Training, Drittlandtransfer, abgeschlossene AVV.
+  Kundenwortlaut: kundenquelle-strato-ki.txt. Abweichungen stehen dort.
