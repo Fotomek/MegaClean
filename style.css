@@ -233,10 +233,17 @@ ul,ol{margin:0;padding:0;list-style:none}
 .formular a{color:var(--gruen-t)}
 .feld{margin-bottom:1.1rem}
 .feld label{display:block;font-weight:700;font-size:.92rem;margin-bottom:.35rem}
-.feld input[type=text],.feld select,.feld textarea{width:100%;font:inherit;padding:.8rem 1rem;border:1.5px solid #7d8fa1;border-radius:var(--r-s);background:#fbfcfd;color:var(--ink);min-height:48px}
+.feld input[type=text],.feld input[type=email],.feld input[type=tel],.feld select,.feld textarea{width:100%;font:inherit;padding:.8rem 1rem;border:1.5px solid #7d8fa1;border-radius:var(--r-s);background:#fbfcfd;color:var(--ink);min-height:48px}
+.feld input[aria-invalid=true],.feld textarea[aria-invalid=true]{border-color:#8d1d1d}
+.feld__fehler{min-height:1.2em;margin:.25rem 0 0;color:#8d1d1d;font-size:.85rem;font-weight:700}
+.formular__status{min-height:1.4em;margin-top:.8rem;font-weight:700}
+.formular__status--fehler{color:#8d1d1d}
+.formular__status--ok{color:var(--ink)}
+.formular__honig{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
 .feld input:focus,.feld select:focus,.feld textarea:focus{outline:3px solid var(--gruen);border-color:var(--gruen-d)}
 .feld__hilfe{display:block;font-size:.82rem;color:var(--mut);margin-top:.3rem}
-.feld--check{display:flex;gap:.7rem;align-items:flex-start}
+.feld--check{display:flex;flex-wrap:wrap;gap:.7rem;align-items:flex-start}
+.feld--check .feld__fehler{flex:1 0 100%;margin:0}
 .feld--check input{margin-top:.3rem;width:20px;height:20px;accent-color:var(--gruen-d);flex:none}
 .feld--check label{font-weight:500;margin:0}
 .feld-zwei{display:grid;gap:0 1rem}

@@ -259,24 +259,18 @@
       </dl>
       <p class="kontakt__knoepfe"><a class="btn btn--primaer" href="tel:+49304397926970">Jetzt anrufen</a><a class="btn btn--zweit" href="mailto:info@megacleanberlin.de">E-Mail schreiben</a></p>
     </div>
-    <form class="formular" action="#kontakt" method="post" aria-labelledby="h-form">
+    <form class="formular" id="anfrage" action="kontakt/senden.php" method="post" novalidate aria-labelledby="h-form">
       <h3 id="h-form">Anfrageformular</h3>
-      <p class="hinweis-klein">Pflichtfelder sind mit * markiert.</p>
-      <div class="feld-zwei">
-        <div class="feld"><label for="f-name">Name *</label><input id="f-name" name="name" type="text" autocomplete="name" required></div>
-        <div class="feld"><label for="f-kontakt">Telefon oder E-Mail *</label><input id="f-kontakt" name="kontakt" type="text" autocomplete="email" required></div>
-      </div>
-      <div class="feld-zwei">
-        <div class="feld"><label for="f-leistung">Leistung *</label>
-          <select id="f-leistung" name="leistung" required><option value="">Bitte wählen</option><option>Gebäudereinigung</option><option>Baustellenreinigung</option><option>Rohrreinigung</option><option>Entrümpelung</option><option>Umzüge</option><option>Transporte</option><option>Gebäudeservice</option><option>Hausmeister Service</option><option>Sonstiges</option></select></div>
-        <div class="feld"><label for="f-ort">PLZ/Ort des Einsatzes *</label><input id="f-ort" name="ort" type="text" autocomplete="postal-code" required></div>
-      </div>
-      <div class="feld"><label for="f-zeit">Wunschzeitraum</label><input id="f-zeit" name="zeitraum" type="text"></div>
-      <div class="feld"><label for="f-text">Kurzbeschreibung</label><textarea id="f-text" name="beschreibung" rows="4" aria-describedby="f-text-h"></textarea>
-        <span class="feld__hilfe" id="f-text-h">Was soll gemacht werden, wie groß ist der Umfang, gibt es Besonderheiten (Stockwerk, Aufzug, Zugang)? Bitte nur, was zur Einschätzung nötig ist. Fotos schicken Sie gern per E-Mail.</span></div>
-      <div class="feld feld--check"><input id="f-dsgvo" name="datenschutz" type="checkbox" required><label for="f-dsgvo">Ich habe die <a href="datenschutz.html">Datenschutzhinweise</a> gelesen. Meine Angaben dürfen zur Bearbeitung meiner Anfrage verwendet werden. *</label></div>
-      <button class="btn btn--primaer" type="submit" disabled aria-disabled="true">Anfrage senden</button>
-      <p class="formular__hinweis" role="note">Das Formular sendet derzeit nichts. Schriftlich erreichen Sie uns über <a href="mailto:info@megacleanberlin.de">info@megacleanberlin.de</a>. Am Telefon gilt die KI-Telefonassistenz, 24/7: <a href="tel:+49304397926970">+49 30 439 792 6970</a>.</p>
+      <p class="hinweis-klein">Pflichtfelder sind mit * markiert. Auf dieser Vorschau wird nichts gesendet, solange der Server die Anfrage nicht annimmt.</p>
+      <div class="formular__honig" aria-hidden="true"><label for="f-website">Website</label><input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+      <div class="feld"><label for="f-name">Name *</label><input id="f-name" name="name" type="text" autocomplete="name" required maxlength="120"><p class="feld__fehler" id="f-name-err" data-for="f-name"></p></div>
+      <div class="feld"><label for="f-email">E-Mail *</label><input id="f-email" name="email" type="email" autocomplete="email" required maxlength="160"><p class="feld__fehler" id="f-email-err" data-for="f-email"></p></div>
+      <div class="feld"><label for="f-telefon">Telefon <span class="hinweis-klein">freiwillig</span></label><input id="f-telefon" name="phone" type="tel" autocomplete="tel" maxlength="40"><p class="feld__fehler" id="f-telefon-err" data-for="f-telefon"></p></div>
+      <div class="feld"><label for="f-nachricht">Nachricht *</label><textarea id="f-nachricht" name="message" rows="5" required maxlength="4000"></textarea><p class="feld__fehler" id="f-nachricht-err" data-for="f-nachricht"></p></div>
+      <div class="feld feld--check"><input id="f-dsgvo" name="datenschutz" type="checkbox" value="1" required><label for="f-dsgvo">Ich habe die <a href="datenschutz.html">Datenschutzhinweise</a> gelesen. Meine Angaben dürfen zur Bearbeitung dieser Anfrage verwendet werden. *</label><p class="feld__fehler" id="f-dsgvo-err" data-for="f-dsgvo"></p></div>
+      <button class="btn btn--primaer" type="submit">Anfrage senden</button>
+      <p id="formular-status" class="formular__status" role="status" aria-live="assertive"></p>
+      <p class="formular__hinweis" role="note">Schriftlich erreichen Sie uns über <a href="mailto:info@megacleanberlin.de">info@megacleanberlin.de</a>. Ob dieses Postfach erreichbar ist, ist nicht geprüft. Am Telefon gilt die KI-Telefonassistenz, 24/7: <a href="tel:+49304397926970">+49 30 439 792 6970</a>.</p>
     </form>
   </div>
 </section>
@@ -333,22 +327,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')d.removeAttr
 document.addEventListener('click',function(e){if(d.open&&!d.contains(e.target))d.removeAttribute('open');});})();
 </script>
 
-<aside id="cookie-hinweis" class="cookie-hinweis" role="dialog" aria-labelledby="cookie-titel" hidden>
-  <div class="cookie-hinweis__innen">
-    <p id="cookie-titel"><strong>Hinweis zu Cookies</strong></p>
-    <p>Wir verwenden keine Tracking-Cookies. Technisch nötige Speicherung (z.&nbsp;B. Ihre Hinweis-Bestätigung) bleibt lokal. Details in der <a href="datenschutz.html">Datenschutzerklärung</a>.</p>
-    <button type="button" class="btn btn--primaer btn--klein" id="cookie-ok">Verstanden</button>
-  </div>
-</aside>
-
-
-<script>
-/* Schlichter Cookie-/Datenschutz-Hinweis; Bestätigung in localStorage (kein Tracking). */
-(function(){var box=document.getElementById('cookie-hinweis');var btn=document.getElementById('cookie-ok');if(!box||!btn)return;
-try{if(localStorage.getItem('mc-cookie-hinweis')==='1')return;}catch(e){}
-box.hidden=false;
-btn.addEventListener('click',function(){try{localStorage.setItem('mc-cookie-hinweis','1');}catch(e){}box.hidden=true;});})();
-</script>
+<script src="kontakt/form.js"></script>
 
 </body>
 </html>

@@ -1,0 +1,40 @@
+Mega Clean Kontaktformular – Aktivierung nur auf einem PHP-Host
+GitHub Pages führt kein PHP aus und versendet dieses Formular nicht.
+
+1. PHP 8.1 oder neuer mit den Erweiterungen session, json, filter, hash, openssl
+   (bei PHP 8.3 auf STRATO üblicherweise dabei). Schreibrecht nur auf das
+   private Verzeichnis, nicht auf das Webroot.
+2. Ordner außerhalb des Webroots anlegen, z. B.
+   $HOME/megaclean-private/kontakt-storage
+   chmod 700 für den Ordner. Darin liegen nur Zähler, keine Nachrichtentexte.
+3. Konfiguration ebenfalls außerhalb des Webroots:
+   $HOME/megaclean-private/kontakt-config.php
+   Vorlage: kontakt/config.example.php (ohne echten Schlüssel).
+4. In der Konfiguration setzen:
+   enabled = true
+   mailbox_confirmed = true   nur nach eigener Prüfung des Postfachs
+   recipient = info@megacleanberlin.de
+   from = eine Absenderadresse der eigenen Domain, die STRATO als Envelope
+          erlaubt (nicht die Besucheradresse)
+   allowed_hosts = die echte Hostname-Liste, ohne GitHub-Pages-Vorschau,
+          solange dort nicht gesendet werden soll
+   storage_dir = absoluter Pfad zum privaten Ordner
+   hmac_key = mindestens 32 zufällige Zeichen, nur auf dem Server
+   transport = mail
+5. Umgebungsvariable des PHP-Hosts:
+   MEGACLEAN_KONTAKT_CONFIG = absoluter Pfad der Konfiguration
+   MEGACLEAN_ALLOW_FAKE_TRANSPORT nicht setzen
+   MEGACLEAN_FORBID_REAL_MAIL nicht setzen
+6. STRATO: PHP-Version im Kundenlogin wählen. mail() nutzt den lokalen
+   Mailtransport des Hosts, optional mit -f und der From-Adresse.
+   Rückgabe true von mail() bedeutet nur, dass das lokale Programm die
+   Nachricht übernommen hat, nicht dass das Postfach sie erhalten hat.
+   SMTP mit Zugangsdaten ist hier nicht eingebaut.
+7. Danach eine harmlose Testmail vom eigenen Browser, nicht aus diesem Repo:
+   Name: Test
+   E-Mail: eine eigene Adresse
+   Nachricht: Prüfung Kontaktformular Mega Clean, bitte Eingang bestätigen.
+   Empfänger laut Konfiguration: info@megacleanberlin.de
+   Diese Mail wird hier nicht abgeschickt.
+8. Erst wenn das Postfach die Testmail zeigt, mailbox_confirmed auf true lassen.
+   Vorher bleibt der Endpunkt bei 503 und sendet nichts.
