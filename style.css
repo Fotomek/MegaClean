@@ -105,6 +105,7 @@ ul,ol{margin:0;padding:0;list-style:none}
 .schnell__liste li:last-child{grid-column:span 2}
 .schnell__liste li:last-child a{aspect-ratio:8/3}
 @media (min-width:760px){.schnell__liste{grid-template-columns:repeat(5,1fr)}.schnell__liste li:last-child{grid-column:auto}.schnell__liste a,.schnell__liste li:last-child a{aspect-ratio:3/4}}
+.schnell__hinweis{margin:.65rem 0 0;font-size:.8rem;line-height:1.4;font-weight:500;color:var(--mut)}
 
 /* Sektionen */
 .sektion{padding:clamp(3.5rem,8vw,6.5rem) 0}
