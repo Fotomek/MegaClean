@@ -224,10 +224,10 @@ ul,ol{margin:0;padding:0;list-style:none}
 /* Kontakt */
 .kontakt{display:grid;gap:2.5rem}
 @media (min-width:920px){.kontakt{grid-template-columns:1fr 1.1fr;gap:4rem;align-items:start}}
-.daten{margin:1.5rem 0;display:grid;gap:.9rem}
-.daten div{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:.85rem;align-items:baseline}
+.daten{margin:1.5rem 0;display:grid;grid-template-columns:max-content minmax(0,1fr);column-gap:.85rem;row-gap:.7rem;align-items:baseline}
+.daten div{display:contents}
 .daten dt{font-weight:800;font-size:.85rem;line-height:1.35;text-transform:uppercase;letter-spacing:.06em;color:#b4c4d2;white-space:nowrap}
-.daten dd{margin:0;line-height:1.35;overflow-wrap:anywhere}
+.daten dd{margin:0;line-height:1.35;min-width:0;overflow-wrap:anywhere}
 .daten a{color:#fff}
 .kontakt__knoepfe{display:flex;flex-wrap:wrap;gap:.75rem}
 .kontakt .btn--zweit{color:#fff}
