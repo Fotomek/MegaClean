@@ -406,3 +406,94 @@ ul,ol{margin:0;padding:0;list-style:none}
 
 .topleiste__hinweis{margin:0;font-size:.82rem;line-height:1.4}
 .topleiste__hinweis strong{color:#fff;font-weight:700}
+
+/* Stil A „Klar Berlin“: vollflächiges Hero, grüne Akzente, knappe Typo.
+   Bestehende Bausteine (Leistungen, Fakten, Formular, Fuß) bleiben. */
+:root{--max:1208px;--bg:#fff}
+body{background:#fff}
+.topleiste{text-align:center;font-size:12px;letter-spacing:.02em}
+.topleiste__innen{justify-content:center;padding:8px 20px}
+.topleiste__hinweis{font-size:12px;letter-spacing:.02em;line-height:1.45}
+.topleiste__hinweis strong{color:var(--gruen);font-weight:700}
+.logo{height:36px}
+@media (max-width:700px){.logo{height:28px}}
+.nav--desk ul{gap:22px}
+.nav--desk a{padding:0;border-radius:0;font-size:14px;font-weight:600;background:none}
+.nav--desk a:hover{background:none;color:var(--blau)}
+@media (min-width:1020px){
+  .kopf__innen{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;min-height:64px}
+  .marke{margin-right:0;justify-self:start}
+  .nav--desk{justify-self:center}
+  .kopf__cta{justify-self:end}
+}
+.btn{border-radius:8px;min-height:44px;font-weight:800}
+.btn--klein{min-height:0;padding:10px 16px;border-radius:8px;font-size:13px}
+.btn--primaer{background:var(--gruen);color:var(--blau);box-shadow:none}
+.btn--primaer:hover{background:#b6e24a;color:var(--blau);transform:none;box-shadow:none}
+.btn--primaer::after,.btn--primaer:hover::after{content:none}
+.btn:focus-visible{outline:3px solid var(--blau);outline-offset:3px;box-shadow:0 0 0 6px rgba(162,216,30,.45)}
+.kopf__cta{animation:none}
+
+.hero{display:block;background:#243240;color:#fff;overflow:visible}
+.hero::before{content:none;display:none}
+.hero__buehne{position:relative;isolation:isolate;min-height:640px;display:flex;align-items:center}
+.hero__bg{position:absolute;inset:0;z-index:0}
+.hero__bg img{width:100%;height:100%;object-fit:cover;object-position:78% 72%;transform:none;animation:none}
+.hero__buehne::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,rgba(27,38,48,.72) 0%,rgba(27,38,48,.28) 48%,rgba(27,38,48,.08) 100%)}
+.hero .wrap{position:relative;z-index:2}
+.hero__text{max-width:640px;padding:72px 0 88px}
+.hero__text>*{animation:none}
+.hero .eyebrow{color:var(--gruen);font-size:13px;font-weight:700;letter-spacing:.08em;margin:0 0 14px}
+.hero h1{color:#fff;font-size:48px;font-weight:800;line-height:1.12;letter-spacing:-.02em;margin:0 0 18px}
+.hero h1 .zeile{display:block}
+.hero h1 em{font-style:normal;color:var(--gruen);background:none;-webkit-text-fill-color:var(--gruen);animation:none}
+.hero .lead{color:#eef3ee;font-size:18px;line-height:1.45;max-width:28em;margin:0 0 22px}
+.hero .badges{gap:8px;margin:0 0 28px}
+.hero .badges li{border:1px solid rgba(255,255,255,.45);color:#fff;font-size:13px;font-weight:600;padding:6px 11px;border-radius:999px;background:rgba(255,255,255,.08)}
+.hero .badges li::before{content:none}
+.hero .knopfreihe{margin:0}
+.hero .btn--primaer{display:inline-flex;border-radius:8px;font-size:15px;font-weight:800;min-height:0;padding:12px 18px;animation:none}
+.hero__hinweis{position:absolute;right:20px;bottom:14px;z-index:3;margin:0;color:#fff;font-size:11px;font-weight:500;letter-spacing:.01em;line-height:1.3;opacity:.78;text-shadow:0 1px 2px rgba(20,30,40,.45);pointer-events:none;text-align:right}
+
+.schnell{margin-top:0;z-index:1;background:#fff;padding:1.75rem 0 2rem}
+.schnell__liste a{border-radius:8px}
+.eyebrow{letter-spacing:.08em;font-size:13px;font-weight:700}
+#ueber-uns{background:#fff}
+#leistungen{background:#f4f6f4}
+#warum{background:#fff}
+#vorteile,#kontakt{background:#f4f6f4;color:var(--ink)}
+#ablauf{background:#fff}
+#einsatzgebiet{background:#f4f6f4}
+.sektion--dunkel h1,.sektion--dunkel h2,.sektion--dunkel h3,.sektion--dunkel h4{color:var(--blau)}
+.sektion--dunkel .eyebrow{color:var(--gruen-t)}
+.sektion--dunkel .lead,.sektion--dunkel p{color:var(--mut)}
+#vorteile .sektion__kopf p,#kontakt .sektion__kopf .lead{color:var(--mut)}
+.vorteil{background:#fff;border:1px solid #e6eae6}
+.vorteil h3{color:var(--blau)}
+.vorteil p{color:var(--mut)}
+.vorteil svg{stroke:var(--gruen-d)}
+.kachel,.fakten li,.schritte li,.formular{border-radius:12px}
+.daten dt{color:var(--blau)}
+.daten dd,.daten a{color:var(--ink)}
+.kontakt .btn--zweit{color:var(--blau);border-color:var(--blau);background:transparent}
+.kontakt .btn--zweit:hover{background:var(--gruen-bg);color:var(--blau)}
+.formular{border:1px solid #e6eae6;box-shadow:none}
+.fuss{background:var(--blau)}
+
+@media (max-width:899px){
+  .hero{display:flex;flex-direction:column;background:#fff;color:var(--ink)}
+  .hero__buehne{display:block;min-height:0;flex:none;width:100%;color:#fff}
+  .hero__bg{position:absolute;inset:0;z-index:0;aspect-ratio:auto;overflow:hidden}
+  .hero__bg img{object-position:64% 34%;transform:none}
+  .hero__bg::after{content:none}
+  .hero__buehne::after{background:linear-gradient(180deg,rgba(27,38,48,.16) 0%,rgba(27,38,48,.42) 42%,rgba(27,38,48,.8) 100%)}
+  .hero__text{padding:150px 0 20px;max-width:none}
+  .hero h1{font-size:30px}
+  .hero .lead{font-size:15px}
+  .hero .badges{margin-bottom:16px}
+  .hero__hinweis{position:static;align-self:flex-end;z-index:4;margin:0;padding:7px 16px 8px;width:100%;font-size:10px;line-height:1.35;color:#5c6b78;opacity:1;text-shadow:none;background:#fff;text-align:right}
+}
+@media (min-width:1920px){
+  .hero__buehne{min-height:680px}
+  .hero__bg img{object-position:74% 68%;transform:none}
+}
