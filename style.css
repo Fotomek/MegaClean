@@ -497,3 +497,10 @@ body{background:#fff}
   .hero__buehne{min-height:680px}
   .hero__bg img{object-position:74% 68%;transform:none}
 }
+
+/* Skyline sitzt auf dem Hintergrund der Kontaktsektion und schließt unten am Footer an. */
+.skyline{background:#f4f6f4;margin:0;padding:0;line-height:0}
+.skyline img{display:block;width:56%;max-width:560px;height:auto;margin:0}
+@media (max-width:640px){
+  .skyline img{width:100%;max-width:none}
+}
