@@ -428,8 +428,8 @@ body{background:#fff}
 }
 .btn{border-radius:8px;min-height:44px;font-weight:800}
 .btn--klein{min-height:0;padding:10px 16px;border-radius:8px;font-size:13px}
-.btn--primaer{background:var(--gruen);color:var(--blau);box-shadow:none}
-.btn--primaer:hover{background:#b6e24a;color:var(--blau);transform:none;box-shadow:none}
+.btn--primaer{background:var(--gruen);color:var(--ink);box-shadow:none}
+.btn--primaer:hover{background:#b6e24a;color:var(--ink);transform:none;box-shadow:none}
 .btn--primaer::after,.btn--primaer:hover::after{content:none}
 .btn:focus-visible{outline:3px solid var(--blau);outline-offset:3px;box-shadow:0 0 0 6px rgba(162,216,30,.45)}
 .kopf__cta{animation:none}
@@ -498,9 +498,26 @@ body{background:#fff}
   .hero__bg img{object-position:74% 68%;transform:none}
 }
 
-/* Skyline sitzt auf dem Hintergrund der Kontaktsektion und schließt unten am Footer an. */
-.skyline{background:#f4f6f4;margin:0;padding:0;line-height:0}
-.skyline img{display:block;width:56%;max-width:560px;height:auto;margin:0}
+/* Skyline sitzt auf dem Hintergrund der Kontaktsektion und überlappt den Footer um 1px. */
+.skyline{background:#f4f6f4;line-height:0;font-size:0;padding:0;margin:0;border:0}
+.skyline .wrap{padding-bottom:0;margin-bottom:0}
+.skyline img{display:block;vertical-align:bottom;margin:0 0 -1px;position:relative;z-index:1;width:56%;max-width:560px;height:auto}
+.fuss{border-top:0}
 @media (max-width:640px){
   .skyline img{width:100%;max-width:none}
+}
+
+/* Gesperrter Primärbutton: deckendes Hellgrün, dunkle Schrift, Hover ändert nichts. */
+.btn[disabled],
+.btn[aria-disabled="true"],
+.btn--primaer[disabled],
+.btn--primaer[aria-disabled="true"],
+.btn--primaer[disabled]:hover,
+.btn--primaer[aria-disabled="true"]:hover{
+  opacity:1;
+  background:#d4ec9a;
+  color:var(--ink);
+  cursor:not-allowed;
+  transform:none;
+  box-shadow:none;
 }
