@@ -581,3 +581,14 @@ body{background:#fff}
 @media (min-width:1100px){
   #vorteile .vorteile{grid-template-columns:repeat(4,minmax(0,1fr))}
 }
+
+/* Tropfen nie über Text: mobil aus, Desktop unten rechts im Bild. */
+@media (max-width:760px){
+  .seite-laden,.seite-laden--aktiv{display:none !important}
+}
+@media (min-width:761px){
+  .seite-laden{place-items:end;padding:0 8vw 28vh 0}
+}
+
+/* Offene Leistungskachel streckt die Nachbarkachel nicht mit. */
+.bento{align-items:start}
