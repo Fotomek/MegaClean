@@ -592,3 +592,6 @@ body{background:#fff}
 
 /* Offene Leistungskachel streckt die Nachbarkachel nicht mit. */
 .bento{align-items:start}
+
+/* PR17: Hero-Mann oben nie abgeschnitten, oben max. 40 px Beschnitt */
+@media (min-width:900px){.hero__bg img{object-position:78% max(72%, -40px)}}
