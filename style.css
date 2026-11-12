@@ -521,3 +521,63 @@ body{background:#fff}
   transform:none;
   box-shadow:none;
 }
+
+/* Acht Bildkarten: 4:3, Desktop 4×2, Mobil 2, unter 360px eine Spalte. */
+.schnell__liste{grid-template-columns:1fr}
+.schnell__liste li:last-child{grid-column:auto}
+.schnell__liste a,
+.schnell__liste li:last-child a{
+  display:flex;
+  flex-direction:column;
+  aspect-ratio:auto;
+  min-height:44px;
+  color:var(--ink);
+  background:#fff;
+  border-radius:12px;
+}
+.schnell__liste a::after{content:none}
+.schnell__liste img{width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;flex:none}
+.schnell__liste a span{position:static;left:auto;right:auto;bottom:auto;color:inherit}
+.schnell__liste .karte__titel{display:block;padding:.75rem .85rem 0;font-weight:800;font-size:1rem;line-height:1.25}
+.schnell__liste .karte__zusatz{display:block;padding:.25rem .85rem 0;font-weight:500;font-size:.85rem;line-height:1.35;color:var(--mut)}
+.schnell__liste .karte__mehr{display:block;padding:.55rem .85rem .9rem;font-weight:800;font-size:.92rem;color:var(--gruen-t)}
+@media (min-width:360px){
+  .schnell__liste{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (min-width:900px){
+  .schnell__liste{grid-template-columns:repeat(4,minmax(0,1fr))}
+}
+
+/* Hero-Tags: mobil zwei Spalten, sehr schmal eine. */
+@media (max-width:640px){
+  .hero .badges{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .hero .badges li{justify-content:center;text-align:center;white-space:normal}
+}
+@media (max-width:359px){
+  .hero .badges{grid-template-columns:1fr}
+}
+
+/* Aufklappbare Leistung, ohne die Kacheloptik zu ändern. */
+.kachel__mehr{margin-top:.85rem;border-top:1px solid var(--line);padding-top:.7rem}
+.kachel__mehr summary{cursor:pointer;font-weight:800;list-style:none;color:var(--ink)}
+.kachel__mehr summary::-webkit-details-marker{display:none}
+.kachel__mehr summary::after{content:" +";color:var(--gruen-t)}
+.kachel__mehr[open] summary::after{content:" –"}
+.kachel__mehr p{margin:.7rem 0 0}
+.kachel__bilder{display:grid;gap:.6rem;margin-top:.8rem}
+.kachel__bilder img{width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;border-radius:8px}
+@media (min-width:640px){
+  .kachel__bilder{grid-template-columns:1fr 1fr}
+}
+
+/* Vier Vorteile: zwei mal zwei, ab 1100px eine Reihe. */
+@media (min-width:760px){
+  #vorteile .vorteile{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #vorteile .vorteil,
+  #vorteile .vorteil:last-child:nth-child(odd),
+  #vorteile .vorteil:nth-child(4):nth-last-child(2),
+  #vorteile .vorteil:nth-child(5):last-child{grid-column:auto}
+}
+@media (min-width:1100px){
+  #vorteile .vorteile{grid-template-columns:repeat(4,minmax(0,1fr))}
+}
