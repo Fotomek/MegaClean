@@ -612,3 +612,8 @@ body{background:#fff}
 
 /* PR17: Hero-Mann oben nie abgeschnitten, oben max. 40 px Beschnitt */
 @media (min-width:900px){.hero__bg img{object-position:78% max(72%, -40px)}}
+
+/* FAQ */
+.faq{margin-top:1.4rem;display:grid;gap:.2rem}
+.faq .kachel__mehr{margin-top:0;padding:.9rem 0;border-top:1px solid var(--line)}
+.faq .kachel__mehr p{color:var(--mut)}
