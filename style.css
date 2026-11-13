@@ -256,9 +256,16 @@ ul,ol{margin:0;padding:0;list-style:none}
 /* Fuß */
 .fuss{background:#18232d;color:#c5d2dd;padding:3rem 0 6rem;font-size:.95rem}
 .fuss__innen{display:grid;gap:2rem}
-@media (min-width:760px){.fuss__innen{grid-template-columns:1.4fr 1fr 1fr}}
+@media (min-width:760px){
+  .fuss__innen{grid-template-columns:1.4fr 1fr 1fr;column-gap:2rem;row-gap:2.5rem}
+  .fuss__marke{grid-column:1;grid-row:1}
+  .fuss__anbieter{grid-column:1;grid-row:2}
+  .fuss__kontakt{grid-column:2;grid-row:2}
+  .fuss__seiten{grid-column:3;grid-row:2}
+}
 .fuss h2{font-size:.8rem;text-transform:uppercase;letter-spacing:.12em;color:#fff;margin-bottom:.8rem}
 .fuss p{margin:0 0 .3rem}
+.fuss__marke p{margin:0}
 .fuss a{color:#eef3f7}
 .fuss a:hover{color:var(--gruen)}
 .fuss li{margin-bottom:.35rem}
@@ -538,7 +545,10 @@ body{background:#fff}
 .schnell__liste a::after{content:none}
 .schnell__liste img{width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;flex:none}
 .schnell__liste a span{position:static;left:auto;right:auto;bottom:auto;color:inherit}
-.schnell__liste .karte__titel{display:block;padding:.75rem .85rem 0;font-weight:800;font-size:1rem;line-height:1.25}
+.schnell__liste .karte__titel{display:block;padding:.75rem .85rem 0;font-weight:800;font-size:1rem;line-height:1.25;hyphens:manual;-webkit-hyphens:manual;overflow-wrap:break-word}
+@media (min-width:360px) and (max-width:399px){
+  .schnell__liste .karte__titel{font-size:.9375rem}
+}
 .schnell__liste .karte__zusatz{display:block;padding:.25rem .85rem 0;font-weight:500;font-size:.85rem;line-height:1.35;color:var(--mut)}
 .schnell__liste .karte__mehr{display:block;padding:.55rem .85rem .9rem;font-weight:800;font-size:.92rem;color:var(--gruen-t)}
 @media (min-width:360px){
@@ -564,14 +574,17 @@ body{background:#fff}
 .kachel__mehr summary::after{content:" +";color:var(--gruen-t)}
 .kachel__mehr[open] summary::after{content:" –"}
 .kachel__mehr p{margin:.7rem 0 0}
+.kachel__mehr ul{margin:.75rem 0 0;display:grid;gap:.4rem}
+.kachel__mehr li{position:relative;padding-left:1.05rem;color:var(--mut);font-size:.98rem;line-height:1.45}
+.kachel__mehr li::before{content:"";position:absolute;left:0;top:.55em;width:.38rem;height:.38rem;border-radius:50%;background:var(--gruen-d)}
 .kachel__bilder{display:grid;gap:.6rem;margin-top:.8rem}
 .kachel__bilder img{width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;border-radius:8px}
 @media (min-width:640px){
   .kachel__bilder{grid-template-columns:1fr 1fr}
 }
 
-/* Vier Vorteile: zwei mal zwei, ab 1100px eine Reihe. */
-@media (min-width:760px){
+/* Fünf Vorteile: ab 600px zwei Spalten, ab 1100px drei plus zwei. */
+@media (min-width:600px){
   #vorteile .vorteile{grid-template-columns:repeat(2,minmax(0,1fr))}
   #vorteile .vorteil,
   #vorteile .vorteil:last-child:nth-child(odd),
@@ -579,7 +592,11 @@ body{background:#fff}
   #vorteile .vorteil:nth-child(5):last-child{grid-column:auto}
 }
 @media (min-width:1100px){
-  #vorteile .vorteile{grid-template-columns:repeat(4,minmax(0,1fr))}
+  #vorteile .vorteile{grid-template-columns:repeat(6,minmax(0,1fr))}
+  #vorteile .vorteil,
+  #vorteile .vorteil:last-child:nth-child(odd){grid-column:span 2}
+  #vorteile .vorteil:nth-child(4):nth-last-child(2),
+  #vorteile .vorteil:nth-child(5):last-child{grid-column:span 3}
 }
 
 /* Tropfen nie über Text: mobil aus, Desktop unten rechts im Bild. */
@@ -595,3 +612,8 @@ body{background:#fff}
 
 /* PR17: Hero-Mann oben nie abgeschnitten, oben max. 40 px Beschnitt */
 @media (min-width:900px){.hero__bg img{object-position:78% max(72%, -40px)}}
+
+/* FAQ */
+.faq{margin-top:1.4rem;display:grid;gap:.2rem}
+.faq .kachel__mehr{margin-top:0;padding:.9rem 0;border-top:1px solid var(--line)}
+.faq .kachel__mehr p{color:var(--mut)}
