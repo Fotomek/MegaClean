@@ -451,6 +451,11 @@ body{background:#fff}
 .hero__text{max-width:640px;padding:72px 0 88px}
 .hero__text>*{animation:none}
 .hero .eyebrow{color:var(--gruen);font-size:13px;font-weight:700;letter-spacing:.08em;margin:0 0 14px}
+.hero__sozial{display:block;max-width:100%;margin:0 0 16px;padding:8px 14px;border:1px solid var(--gruen);border-radius:14px;background:rgba(18,28,38,.92);color:#fff;font-size:14px;font-weight:600;line-height:1.4;letter-spacing:0}
+.hero__sozial strong{color:var(--gruen);font-weight:800}
+@media (max-width:420px){
+  .hero__sozial{font-size:13px;padding:8px 12px}
+}
 .hero h1{color:#fff;font-size:48px;font-weight:800;line-height:1.12;letter-spacing:-.02em;margin:0 0 18px}
 .hero h1 .zeile{display:block}
 .hero h1 em{font-style:normal;color:var(--gruen);background:none;-webkit-text-fill-color:var(--gruen);animation:none}
