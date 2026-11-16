@@ -208,7 +208,7 @@ ul,ol{margin:0;padding:0;list-style:none}
 
 /* Einsatzgebiet */
 .chips{display:flex;flex-wrap:wrap;gap:.5rem;margin:1rem 0}
-.chips li{padding:.45rem 1rem;border-radius:99px;background:#fff;border:1px solid var(--line);font-weight:600;font-size:.92rem}
+.chips li{max-width:100%;min-width:0;padding:.45rem 1rem;border-radius:99px;background:#fff;border:1px solid var(--line);font-weight:600;font-size:.92rem;overflow-wrap:break-word}
 .chips__sitz{background:var(--gruen-bg)!important;border-color:#cfe58f!important}
 
 /* FAQ */
