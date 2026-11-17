@@ -59,10 +59,10 @@ ul,ol{margin:0;padding:0;list-style:none}
 .kopf__innen{display:flex;align-items:center;gap:1.25rem;min-height:68px}
 .marke{display:flex;align-items:center;gap:.65rem;color:var(--ink);text-decoration:none;font-weight:800;line-height:1.05;margin-right:auto;font-size:1.05rem;padding:.35rem 0}
 .marke:hover{color:var(--ink)}
-/* Logo (Inline-SVG-Nachbau, siehe <symbol id="mc-logo">) */
-.logo{display:block;height:36px;width:auto;aspect-ratio:1446/235;flex:none}
+/* Logo: Symbol #mc-logo (quer positiv, heller Grund), #mc-logo-neg (quer negativ, dunkler Grund). */
+.logo{display:block;height:36px;width:auto;aspect-ratio:226.832/39.6172;flex:none}
 @media (min-width:600px){.logo{height:44px}}
-.logo--fuss{height:48px;margin-bottom:1.25rem;--lg-mega:#fff;--lg-linie:#9fb2c3}
+.logo--fuss{height:48px;margin-bottom:1.25rem}
 .nav ul{display:flex;gap:.25rem}
 .nav a{color:var(--ink);text-decoration:none;font-weight:600;font-size:.95rem;padding:.5rem .8rem;border-radius:99px}
 .nav a:hover{background:var(--gruen-bg);color:var(--ink)}
