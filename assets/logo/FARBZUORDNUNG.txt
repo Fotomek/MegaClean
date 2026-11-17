@@ -1,0 +1,25 @@
+Umgefärbte MegaClean-Logos
+Stand: 17.11.2026, Farben aus den CD/CI-Dokumenten vom 17.11.2026.
+Die Originalfarben von Fly & Froth wurden nicht übernommen.
+
+Positiv
+  Quadrat / Bildmarken-Grund:     Logo-Blau  #42586D
+  „MEGA“, Linien (unten), Haus,
+  Domain www.megacleanberlin.de:  Logo-Blau  #42586D
+  Spritzer / Blätter, „clean“,
+  obere Linie:                    Logo-Grün  #A2D81E
+  Kleiner Tropfen in der Bildmarke: Weiß #FFFFFF (wie in der Vorlage, als Lichtakzent)
+
+Negativ
+  Alle hellen Logoflächen:        #E8E8E8 (laut CD für Negativ)
+  Aussparungen (Spritzer im Quadrat, Fenster im Haus): transparent
+  Grau #787878 kommt in diesen Logo-Varianten nicht vor.
+  Die Vorlage nutzt für die Weiß-Reihe ein monochromes helles Logo, keine Zweifarbigkeit.
+
+Varianten
+  quer           waagerechtes Logo ohne Domain
+  quer-url       waagerechtes Logo mit Haus und www.megacleanberlin.de
+  gestapelt      Bildmarke oben, Schrift und Domain darunter
+  bildmarke      nur das Quadrat mit Spritzer
+
+Dateien: je Variante SVG und PNG (3000 px breit, transparent).
