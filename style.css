@@ -623,5 +623,12 @@ body{background:#fff}
 .faq .kachel__mehr{margin-top:0;padding:.9rem 0;border-top:1px solid var(--line)}
 .faq .kachel__mehr p{color:var(--mut)}
 
-/* Sozial-Zeile und Button „gemeinsam ans Ziel“ (PR26) */
-.hero__wert{margin:0 0 .6rem;font-weight:700;font-size:1.05rem;color:#fff}
+
+/* Laufbanner Soziales Engagement (PR27) */
+.laufband{overflow:hidden;white-space:nowrap;padding:8px 0;font-size:13px;position:relative}
+.laufband__spur{display:inline-flex;width:max-content;animation:laufband 32s linear infinite}
+.laufband:hover .laufband__spur{animation-play-state:paused}
+.laufband__eintrag{padding:0 3rem;color:#eef3f7}
+.laufband__eintrag strong{color:var(--gruen);font-weight:700}
+@keyframes laufband{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.laufband{white-space:normal;text-align:center}.laufband__spur{animation:none;width:auto;display:block}.laufband__eintrag:not(:first-child){display:none}}
