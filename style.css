@@ -252,6 +252,7 @@ ul,ol{margin:0;padding:0;list-style:none}
 .feld-zwei{display:grid;gap:0 1rem}
 @media (min-width:600px){.feld-zwei{grid-template-columns:1fr 1fr}}
 .formular__hinweis{background:var(--bg);color:var(--ink);border-radius:var(--r-s);padding:.8rem 1rem;font-size:.9rem;margin-top:1rem}
+.formular__dsgvo{font-size:.9rem;margin:0 0 1.1rem;line-height:1.45}
 
 /* Fuß */
 .fuss{background:#18232d;color:#c5d2dd;padding:3rem 0 6rem;font-size:.95rem}

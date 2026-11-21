@@ -1,8 +1,8 @@
 <?php
 /**
- * Kontaktformular-Logik. Versendet nichts, solange die Konfiguration nicht
- * ausdrücklich freigeschaltet ist. mail() wird nur von PhpMailTransport
- * aufgerufen und im Test durch die Namensraum-Funktion blockiert.
+ * Kontaktformular: Prüfung, Spam-Schutz und Aufbau der E-Mail.
+ * Anfragen werden nicht gespeichert. Die IP steht nicht im Klartext.
+ * Rate-Limit nur als gehashter Zähler in einer Datei.
  */
 namespace Megaclean\Kontakt;
 
@@ -15,48 +15,19 @@ const MAX_AGE = 7200;
 const RATE_LIMIT = 5;
 const RATE_WINDOW = 3600;
 
-interface Transport
-{
-    /** @param array{to:string,subject:string,body:string,headers:string,from:string} $message */
-    public function accept(array $message): bool;
-}
+const RECIPIENT = 'info@megacleanberlin.de';
+const FROM = 'noreply@megacleanberlin.de';
+const FROM_NAME = 'Mega Clean Berlin';
+const SUBJECT = 'Anfrage über das Kontaktformular';
+const HMAC_KEY = '9676ee1604b647c2536de21f4bfe8c6121efadddcc150020b279a7aa76d4da68';
 
-class FakeTransport implements Transport
+function rate_dir(): string
 {
-    /** @var list<array{to:string,subject:string,body:string,headers:string,from:string}> */
-    public array $accepted = [];
-
-    public function accept(array $message): bool
-    {
-        $this->accepted[] = $message;
-        return true;
+    $env = getenv('MEGACLEAN_RATE_DIR');
+    if (is_string($env) && $env !== '') {
+        return rtrim($env, '/');
     }
-}
-
-class PhpMailTransport implements Transport
-{
-    public function accept(array $message): bool
-    {
-        if (getenv('MEGACLEAN_FORBID_REAL_MAIL') === '1') {
-            throw new \RuntimeException('real mail forbidden');
-        }
-        return mail(
-            $message['to'],
-            $message['subject'],
-            $message['body'],
-            $message['headers'],
-            '-f' . $message['from']
-        );
-    }
-}
-
-function load_config(?string $path): array
-{
-    if ($path === null || $path === '' || !is_file($path)) {
-        return [];
-    }
-    $cfg = include $path;
-    return is_array($cfg) ? $cfg : [];
+    return __DIR__ . '/rate';
 }
 
 function valid_email(string $value): bool
@@ -67,97 +38,34 @@ function valid_email(string $value): bool
     return filter_var($value, FILTER_VALIDATE_EMAIL) !== false;
 }
 
-/** Leerer String, wenn die Konfiguration senden darf. Sonst ein Fehlercode. */
-function block_reason(array $cfg): string
-{
-    if (empty($cfg['enabled'])) {
-        return 'not_enabled';
-    }
-    if (empty($cfg['mailbox_confirmed'])) {
-        return 'mailbox_unconfirmed';
-    }
-    if (!valid_email((string) ($cfg['recipient'] ?? ''))) {
-        return 'recipient';
-    }
-    if (!valid_email((string) ($cfg['from'] ?? ''))) {
-        return 'from';
-    }
-    $key = $cfg['hmac_key'] ?? '';
-    if (!is_string($key) || strlen($key) < 32) {
-        return 'hmac_key';
-    }
-    $dir = $cfg['storage_dir'] ?? '';
-    if (!is_string($dir) || $dir === '' || !is_dir($dir) || !is_writable($dir)) {
-        return 'storage';
-    }
-    $transport = (string) ($cfg['transport'] ?? '');
-    if ($transport === 'fake') {
-        if (getenv('MEGACLEAN_ALLOW_FAKE_TRANSPORT') !== '1') {
-            return 'fake_forbidden';
-        }
-        return '';
-    }
-    if ($transport !== 'mail') {
-        return 'transport';
-    }
-    if (getenv('MEGACLEAN_FORBID_REAL_MAIL') === '1') {
-        return 'mail_forbidden';
-    }
-    return '';
-}
-
-function issue_token(array &$session, int $now): string
-{
-    $token = bin2hex(random_bytes(16));
-    $session['csrf'] = $token;
-    $session['issued_at'] = $now;
-    return $token;
-}
-
-function host_from(array $server): string
-{
-    $origin = (string) ($server['HTTP_ORIGIN'] ?? '');
-    $referer = (string) ($server['HTTP_REFERER'] ?? '');
-    $raw = $origin !== '' ? $origin : $referer;
-    if ($raw === '') {
-        return '';
-    }
-    $host = parse_url($raw, PHP_URL_HOST);
-    return is_string($host) ? strtolower($host) : '';
-}
-
-function host_allowed(array $cfg, array $server): bool
-{
-    $hosts = $cfg['allowed_hosts'] ?? [];
-    if (!is_array($hosts) || $hosts === []) {
-        return false;
-    }
-    $host = host_from($server);
-    if ($host === '') {
-        return false;
-    }
-    $allowed = array_map(static fn ($item) => strtolower((string) $item), $hosts);
-    return in_array($host, $allowed, true);
-}
-
 function header_safe(string $value): bool
 {
-    return !preg_match('/[\r\n\0]/', $value);
+    return preg_match('/[\r\n\0]/', $value) !== 1;
 }
 
 function clean_text(string $value): string
 {
-    $value = str_replace("\0", '', $value);
-    return trim($value);
+    return trim(str_replace("\0", '', $value));
+}
+
+function encode_subject(string $subject): string
+{
+    if (preg_match('/^[\x20-\x7E]*$/', $subject) === 1) {
+        return $subject;
+    }
+    return '=?UTF-8?B?' . base64_encode($subject) . '?=';
 }
 
 function rate_purge(string $dir, int $now): void
 {
-    $files = glob(rtrim($dir, '/') . '/r-*.json');
+    $files = glob($dir . '/r-*');
     if (!is_array($files)) {
         return;
     }
     foreach ($files as $file) {
+        if (!is_file($file)) {
+            continue;
+        }
         $raw = file_get_contents($file);
         $data = json_decode(is_string($raw) ? $raw : '', true);
         $start = is_array($data) ? (int) ($data['start'] ?? 0) : 0;
@@ -167,15 +75,19 @@ function rate_purge(string $dir, int $now): void
     }
 }
 
-function rate_allow(array $cfg, string $ip, int $now): bool
+function rate_allow(string $ip, int $now): bool
 {
-    if ($ip === '') {
+    $dir = rate_dir();
+    if (!is_dir($dir) && !mkdir($dir, 0700, true) && !is_dir($dir)) {
         return false;
     }
-    $dir = rtrim((string) $cfg['storage_dir'], '/');
+    if (!is_writable($dir)) {
+        return false;
+    }
     rate_purge($dir, $now);
-    $hash = hash_hmac('sha256', $ip, (string) $cfg['hmac_key']);
-    $path = $dir . '/r-' . $hash . '.json';
+    $bucket = $ip !== '' ? $ip : 'unknown';
+    $hash = hash_hmac('sha256', $bucket, HMAC_KEY);
+    $path = $dir . '/r-' . $hash;
     $fh = fopen($path, 'c+');
     if ($fh === false) {
         return false;
@@ -205,39 +117,65 @@ function rate_allow(array $cfg, string $ip, int $now): bool
 }
 
 /**
+ * @return array{to:string,subject:string,body:string,headers:string,from:string,plain:string}
+ */
+function build_message(string $name, string $email, string $phone, string $message): array
+{
+    $plain = "Name: {$name}\nE-Mail: {$email}\nTelefon: " . ($phone === '' ? '-' : $phone) . "\n\nNachricht:\n{$message}\n";
+    $fromHeader = FROM_NAME . ' <' . FROM . '>';
+    $headers = "MIME-Version: 1.0\r\n"
+        . "Content-Type: text/plain; charset=UTF-8\r\n"
+        . "Content-Transfer-Encoding: quoted-printable\r\n"
+        . 'From: ' . $fromHeader . "\r\n"
+        . 'Reply-To: ' . $email . "\r\n";
+    return [
+        'to' => RECIPIENT,
+        'subject' => encode_subject(SUBJECT),
+        'body' => quoted_printable_encode($plain),
+        'headers' => $headers,
+        'from' => FROM,
+        'plain' => $plain,
+    ];
+}
+
+function send_mail(array $packet): bool
+{
+    return \mail(
+        $packet['to'],
+        $packet['subject'],
+        $packet['body'],
+        $packet['headers'],
+        '-f' . $packet['from']
+    );
+}
+
+/**
  * @param array<string,mixed> $post
  * @param array<string,mixed> $server
- * @param array<string,mixed> $session
- * @return array{status:int,body:array{accepted:bool,delivery:?string,error:?string}}
+ * @param null|callable(array):bool $mailer
+ * @return array{status:int,body:array{ok:bool,error:?string},mailed:bool}
  */
-function handle(array $cfg, array $post, array $server, array &$session, int $now, ?Transport $transport = null): array
+function handle(array $post, array $server, int $now, ?callable $mailer = null): array
 {
     $fail = static function (int $status, string $error): array {
-        return ['status' => $status, 'body' => ['accepted' => false, 'delivery' => null, 'error' => $error]];
+        return ['status' => $status, 'body' => ['ok' => false, 'error' => $error], 'mailed' => false];
     };
 
-    $reason = block_reason($cfg);
-    if ($reason !== '') {
-        return $fail(503, 'not_configured');
+    if (clean_text((string) ($post['website'] ?? '')) !== '') {
+        return ['status' => 200, 'body' => ['ok' => true, 'error' => null], 'mailed' => false];
     }
-    if (!host_allowed($cfg, $server)) {
-        return $fail(403, 'origin');
+
+    $ts = clean_text((string) ($post['ts'] ?? ''));
+    if ($ts === '' || preg_match('/^[0-9]{9,12}$/', $ts) !== 1 || !header_safe($ts)) {
+        return $fail(400, 'ts');
     }
-    if (!empty($post['website'])) {
-        return $fail(400, 'rejected');
+    $loaded = (int) $ts;
+    $age = $now - $loaded;
+    if ($loaded > $now + 30 || $age > MAX_AGE) {
+        return $fail(400, 'expired');
     }
-    $csrf = (string) ($post['csrf'] ?? '');
-    $known = (string) ($session['csrf'] ?? '');
-    $issued = (int) ($session['issued_at'] ?? 0);
-    if ($csrf === '' || $known === '' || !hash_equals($known, $csrf)) {
-        return $fail(403, 'csrf');
-    }
-    $age = $now - $issued;
     if ($age < MIN_SECONDS) {
         return $fail(429, 'too_fast');
-    }
-    if ($age > MAX_AGE) {
-        return $fail(403, 'expired');
     }
 
     $name = clean_text((string) ($post['name'] ?? ''));
@@ -251,52 +189,23 @@ function handle(array $cfg, array $post, array $server, array &$session, int $no
     if (!valid_email($email)) {
         return $fail(400, 'email');
     }
-    if ($phone !== '' && (strlen($phone) > PHONE_MAX || !header_safe($phone) || !preg_match('/^[0-9+\\-\\s()\\/]+$/', $phone))) {
+    if ($phone !== '' && (strlen($phone) > PHONE_MAX || !header_safe($phone) || preg_match('/^[0-9+\-\s()\/]+$/', $phone) !== 1)) {
         return $fail(400, 'phone');
     }
-    if ($message === '' || strlen($message) > MESSAGE_MAX || !header_safe(str_replace(["\r", "\n"], '', $message))) {
+    $messageForHeaderCheck = str_replace(["\r", "\n"], '', $message);
+    if ($message === '' || strlen($message) > MESSAGE_MAX || !header_safe($messageForHeaderCheck)) {
         return $fail(400, 'message');
-    }
-    if (empty($post['datenschutz'])) {
-        return $fail(400, 'privacy');
     }
 
     $ip = (string) ($server['REMOTE_ADDR'] ?? '');
-    if (!rate_allow($cfg, $ip, $now)) {
+    if (!rate_allow($ip, $now)) {
         return $fail(429, 'rate');
     }
 
-    $plain = "Name: {$name}\nE-Mail: {$email}\nTelefon: " . ($phone === '' ? '-' : $phone) . "\n\nNachricht:\n{$message}\n";
-    $body = quoted_printable_encode($plain);
-    $headers = "MIME-Version: 1.0\r\n"
-        . "Content-Type: text/plain; charset=UTF-8\r\n"
-        . "Content-Transfer-Encoding: quoted-printable\r\n"
-        . 'From: ' . $cfg['from'] . "\r\n"
-        . 'Reply-To: ' . $email . "\r\n";
-    $packet = [
-        'to' => (string) $cfg['recipient'],
-        'subject' => 'Mega Clean Website-Anfrage',
-        'body' => $body,
-        'headers' => $headers,
-        'from' => (string) $cfg['from'],
-    ];
-
-    $used = $transport ?? make_transport($cfg);
-    $ok = $used->accept($packet);
-    if (!$ok) {
-        return $fail(502, 'transport_rejected');
+    $packet = build_message($name, $email, $phone, $message);
+    $sender = $mailer ?? static fn (array $item): bool => send_mail($item);
+    if (!$sender($packet)) {
+        return $fail(502, 'mail');
     }
-    unset($session['csrf'], $session['issued_at']);
-    return ['status' => 200, 'body' => ['accepted' => true, 'delivery' => 'unconfirmed', 'error' => null]];
-}
-
-function make_transport(array $cfg): Transport
-{
-    if (($cfg['transport'] ?? '') === 'fake') {
-        if (getenv('MEGACLEAN_ALLOW_FAKE_TRANSPORT') !== '1') {
-            throw new \RuntimeException('fake transport forbidden');
-        }
-        return new FakeTransport();
-    }
-    return new PhpMailTransport();
+    return ['status' => 200, 'body' => ['ok' => true, 'error' => null], 'mailed' => true];
 }
